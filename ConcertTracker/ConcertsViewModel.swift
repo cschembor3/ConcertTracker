@@ -16,8 +16,10 @@ import Foundation
     func fetch() async {
         
         do {
-            let response = try await self.setlistApi.getConcertsAttended(for: "cschembor")
-            self.bands = response.setlist.map { $0.artist.name }
+            let response = try await SetlistService(setlistApi: self.setlistApi)
+                .getConcertsAttended(for: "cschembor", sortedBy: .dateDescending)
+
+            self.bands = response.map { $0.name }
         } catch {
             // TODO: handle error
         }

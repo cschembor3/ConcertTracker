@@ -12,20 +12,20 @@ protocol SetlistApiInterface {
 }
 
 struct SetlistApi: SetlistApiInterface {
-    
+
     static let baseUrl = "https://api.setlist.fm/rest/1.0"
-    
+
     func getConcertsAttended(for username: String) async throws -> UserSetlistResponse {
-        
+
         guard let url = URL(string: "\(SetlistApi.baseUrl)/user/\(username)/attended?p=1") else {
             throw URLError(.badURL)
         }
-        
+
         var request = URLRequest(url: url)
         request.httpMethod =  "GET"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue(Secrets.setlistApiKey, forHTTPHeaderField: "x-api-key")
-        
+
         let (data,  _) = try await URLSession.shared.data(for: request)
         return try! JSONDecoder().decode(UserSetlistResponse.self, from: data)
     }

@@ -16,6 +16,7 @@
 		D2796A2628427432007016CE /* ConcertTrackerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2796A2528427432007016CE /* ConcertTrackerUITestsLaunchTests.swift */; };
 		D2796A3428427527007016CE /* SetlistApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2796A3328427527007016CE /* SetlistApi.swift */; };
 		D2BDEFE2285513B9003FC4A2 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BDEFE1285513B9003FC4A2 /* Secrets.swift */; };
+		D2D8D8872856A88300658B9A /* ConcertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D8D8862856A88300658B9A /* ConcertCell.swift */; };
 		D2F98513284EDD2E00D56104 /* ConcertsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F98512284EDD2E00D56104 /* ConcertsView.swift */; };
 		D2F98515285185A000D56104 /* ConcertsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F98514285185A000D56104 /* ConcertsViewModel.swift */; };
 		D2F9851728518BC900D56104 /* ConcertsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F9851628518BC900D56104 /* ConcertsStore.swift */; };
@@ -52,6 +53,7 @@
 		D2796A2528427432007016CE /* ConcertTrackerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertTrackerUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D2796A3328427527007016CE /* SetlistApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetlistApi.swift; sourceTree = "<group>"; };
 		D2BDEFE1285513B9003FC4A2 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		D2D8D8862856A88300658B9A /* ConcertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCell.swift; sourceTree = "<group>"; };
 		D2F98512284EDD2E00D56104 /* ConcertsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertsView.swift; sourceTree = "<group>"; };
 		D2F98514285185A000D56104 /* ConcertsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertsViewModel.swift; sourceTree = "<group>"; };
 		D2F9851628518BC900D56104 /* ConcertsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertsStore.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				D2796A0C28427431007016CE /* Assets.xcassets */,
 				D2796A0E28427431007016CE /* Preview Content */,
 				D2BDEFE1285513B9003FC4A2 /* Secrets.swift */,
+				D2D8D8862856A88300658B9A /* ConcertCell.swift */,
 			);
 			path = ConcertTracker;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				D2F9851728518BC900D56104 /* ConcertsStore.swift in Sources */,
 				D2BDEFE2285513B9003FC4A2 /* Secrets.swift in Sources */,
 				D2796A0B2842742E007016CE /* InitUsernameView.swift in Sources */,
+				D2D8D8872856A88300658B9A /* ConcertCell.swift in Sources */,
 				D2F98513284EDD2E00D56104 /* ConcertsView.swift in Sources */,
 				D2F98515285185A000D56104 /* ConcertsViewModel.swift in Sources */,
 				D2796A3428427527007016CE /* SetlistApi.swift in Sources */,
