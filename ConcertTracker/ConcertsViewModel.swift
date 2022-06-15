@@ -11,15 +11,13 @@ import Foundation
     
     private let setlistApi = SetlistApi()
     
-    @Published private(set) var bands: [String] = []
+    @Published private(set) var concertsAttended: [ArtistSeen] = []
     
     func fetch() async {
         
         do {
-            let response = try await SetlistService(setlistApi: self.setlistApi)
+            self.concertsAttended = try await SetlistService(setlistApi: self.setlistApi)
                 .getConcertsAttended(for: "cschembor", sortedBy: .dateDescending)
-
-            self.bands = response.map { $0.name }
         } catch {
             // TODO: handle error
         }

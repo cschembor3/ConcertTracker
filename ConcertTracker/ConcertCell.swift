@@ -11,6 +11,11 @@ struct ArtistCell: View {
 
     @State private var isExpanded: Bool = false
 
+    private let artistShowsSeen: ArtistSeen
+    init(artistShowsSeen: ArtistSeen) {
+        self.artistShowsSeen = artistShowsSeen
+    }
+
     var body: some View {
 
         VStack(alignment: .leading) {
@@ -23,38 +28,48 @@ struct ArtistCell: View {
                         .padding(.leading)
                 }
 
-                Text("Artist")
+                Text(self.artistShowsSeen.name)
 
                 Spacer()
             }
+            .animation(nil, value: self.isExpanded)
             .contentShape(Rectangle())
             .onTapGesture {
-                self.isExpanded = !self.isExpanded
+                withAnimation {
+                    self.isExpanded.toggle()
+                }
             }
 
             if isExpanded {
                 Group {
-                    ConcertCell()
-                    ConcertCell()
-                    ConcertCell()
+                    ForEach(self.artistShowsSeen.shows) { show in
+
+                        ConcertCell(venueName: show.venue.name)
+                    }
                 }
+                .transition(.asymmetric(insertion: .opacity, removal: .scale))
             }
         }
     }
 }
 
-struct ArtistCell_Previews: PreviewProvider {
-    static var previews: some View {
-        ArtistCell()
-    }
-}
+//struct ArtistCell_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ArtistCell(artistName: "Deftones")
+//    }
+//}
 
 struct ConcertCell: View {
+
+    private let venueName: String
+    init(venueName: String) {
+        self.venueName = venueName
+    }
 
     var body: some View {
 
         HStack {
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            Text(self.venueName)
                 .padding()
 
             Spacer()
@@ -65,8 +80,8 @@ struct ConcertCell: View {
     }
 }
 
-struct ConcertCell_Previews: PreviewProvider {
-    static var previews: some View {
-        ConcertCell()
-    }
-}
+//struct ConcertCell_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ConcertCell()
+//    }
+//}

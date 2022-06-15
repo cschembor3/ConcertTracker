@@ -55,13 +55,13 @@ struct Artist: Codable {
     let name: String
 }
 
-struct Venue: Codable {
+struct Venue: Codable, Hashable {
     let id: String
     let name: String
     let city: Location
 }
 
-struct Location: Codable {
+struct Location: Codable, Hashable {
     let id: String
     let name: String
     let state: String
@@ -69,12 +69,12 @@ struct Location: Codable {
     let country: Country
 }
 
-struct Country: Codable {
+struct Country: Codable, Hashable {
     let code: String
     let name: String
 }
 
-struct Tour: Codable {
+struct Tour: Codable, Hashable {
     let name: String
 }
 

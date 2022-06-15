@@ -40,6 +40,7 @@ class SetlistService: SetlistServiceInterface {
 
                 concerts.append(
                     Concert(
+                        id: UUID(),
                         tour: tour,
                         venue: venue,
                         setlist: setlist,
@@ -101,19 +102,20 @@ class SetlistService: SetlistServiceInterface {
     }
 }
 
-struct ArtistSeen {
+struct ArtistSeen: Hashable, Identifiable {
     let id: String
     let name: String
     let shows: [Concert]
 }
 
-struct Concert {
+struct Concert: Hashable, Identifiable {
+    let id: UUID
     let tour: Tour?
     let venue: Venue
     let setlist: Setlist
     let date: Date?
 }
 
-struct Setlist {
+struct Setlist: Hashable {
     let songs: [String]
 }

@@ -16,10 +16,9 @@ struct ConcertsView: View {
         
         NavigationView {
             ZStack {
-                // TODO: Make these cells expandable if a band has more than one setlist
                 List {
-                    ForEach(viewModel.bands, id: \.self) { band in
-                        Text(band)
+                    ForEach(viewModel.concertsAttended) { artistSeen in
+                        ArtistCell(artistShowsSeen: artistSeen)
                     }
                 }
                 
