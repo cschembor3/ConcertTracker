@@ -43,8 +43,7 @@ struct ArtistCell: View {
             if isExpanded {
                 Group {
                     ForEach(self.artistShowsSeen.shows) { show in
-
-                        ConcertCell(venueName: show.venue.name)
+                        ConcertCell(with: ConcertCellViewModel(for: show))
                     }
                 }
                 .transition(.asymmetric(insertion: .opacity, removal: .scale))
@@ -61,15 +60,15 @@ struct ArtistCell: View {
 
 struct ConcertCell: View {
 
-    private let venueName: String
-    init(venueName: String) {
-        self.venueName = venueName
+    private let viewModel: ConcertCellViewModel
+    init(with viewModel: ConcertCellViewModel) {
+        self.viewModel = viewModel
     }
 
     var body: some View {
 
         HStack {
-            Text(self.venueName)
+            Text(self.viewModel.displayString)
                 .padding()
 
             Spacer()

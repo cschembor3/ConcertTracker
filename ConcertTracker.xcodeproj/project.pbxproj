@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D252D861285E835300A4B79D /* ConcertCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D252D860285E835300A4B79D /* ConcertCellViewModel.swift */; };
 		D2796A092842742E007016CE /* ConcertTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2796A082842742E007016CE /* ConcertTrackerApp.swift */; };
 		D2796A0B2842742E007016CE /* InitUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2796A0A2842742E007016CE /* InitUsernameView.swift */; };
 		D2796A0D28427431007016CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2796A0C28427431007016CE /* Assets.xcassets */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D252D860285E835300A4B79D /* ConcertCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCellViewModel.swift; sourceTree = "<group>"; };
 		D2796A052842742E007016CE /* ConcertTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConcertTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2796A082842742E007016CE /* ConcertTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertTrackerApp.swift; sourceTree = "<group>"; };
 		D2796A0A2842742E007016CE /* InitUsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitUsernameView.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				D2796A0E28427431007016CE /* Preview Content */,
 				D2BDEFE1285513B9003FC4A2 /* Secrets.swift */,
 				D2D8D8862856A88300658B9A /* ConcertCell.swift */,
+				D252D860285E835300A4B79D /* ConcertCellViewModel.swift */,
 			);
 			path = ConcertTracker;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				D2796A0B2842742E007016CE /* InitUsernameView.swift in Sources */,
 				D2D8D8872856A88300658B9A /* ConcertCell.swift in Sources */,
 				D2F98513284EDD2E00D56104 /* ConcertsView.swift in Sources */,
+				D252D861285E835300A4B79D /* ConcertCellViewModel.swift in Sources */,
 				D2F98515285185A000D56104 /* ConcertsViewModel.swift in Sources */,
 				D2796A3428427527007016CE /* SetlistApi.swift in Sources */,
 				D2F9851928518C0E00D56104 /* SetlistService.swift in Sources */,
