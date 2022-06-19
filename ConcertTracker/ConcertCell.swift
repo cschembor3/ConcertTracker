@@ -29,6 +29,7 @@ struct ArtistCell: View {
                 }
 
                 Text(self.artistShowsSeen.name)
+                    .font(.headline)
 
                 Spacer()
             }
@@ -46,7 +47,7 @@ struct ArtistCell: View {
                         ConcertCell(with: ConcertCellViewModel(for: show))
                     }
                 }
-                .transition(.asymmetric(insertion: .opacity, removal: .scale))
+                .transition(AnyTransition.move(edge: .top).combined(with: .opacity))
             }
         }
     }
@@ -69,6 +70,7 @@ struct ConcertCell: View {
 
         HStack {
             Text(self.viewModel.displayString)
+                .font(.body)
                 .padding()
 
             Spacer()
