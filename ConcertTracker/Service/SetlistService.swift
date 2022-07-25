@@ -28,28 +28,12 @@ class SetlistService: SetlistServiceInterface {
         let response = try await self.setlistApi.getConcertsAttended(for: username)
         let artists = Dictionary(grouping: response.setlist, by: {$0.artist.mbid})
         var data: [ArtistSeen] = []
-        for (artistId, artist) in artists {
-            var concerts: [Concert] = []
-            for show in artist {
-                let date = self.dateFormatter.date(from: show.eventDate)
-                let venue = show.venue
-                let tour = show.tour
-                let setlist = Setlist(
-                    songs: show.sets.set.flatMap { $0.song?.map { $0.name } ?? [] }
-                )
-
-                concerts.append(
-                    Concert(
-                        id: UUID(),
-                        tour: tour,
-                        venue: venue,
-                        setlist: setlist,
-                        date: date
-                    )
-                )
+        artists.forEach { (artistId, artist) in
+            let concerts = artist.map { show in
+                Concert(from: show, dateFormatter: self.dateFormatter)
             }
 
-            guard let name = artist.first?.artist.name else { continue }
+            guard let name = artist.first?.artist.name else { return }
             data.append(
                 ArtistSeen(
                     id: artistId,
@@ -114,6 +98,19 @@ struct Concert: Hashable, Identifiable {
     let venue: Venue
     let setlist: Setlist
     let date: Date?
+}
+
+extension Concert {
+
+    init(from show: SetlistResponse, dateFormatter: DateFormatter) {
+        self.id = UUID()
+        self.tour = show.tour
+        self.venue = show.venue
+        self.date = dateFormatter.date(from: show.eventDate)
+        self.setlist = Setlist(
+            songs: show.sets.set.flatMap { $0.song?.map { $0.name } ?? [] }
+        )
+    }
 }
 
 struct Setlist: Hashable {

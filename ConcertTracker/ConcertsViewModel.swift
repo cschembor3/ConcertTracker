@@ -7,7 +7,12 @@
 
 import Foundation
 
-@MainActor class ConcertsViewModel: ObservableObject {
+@MainActor protocol ConcertsViewModelProtocol {
+    var concertsAttended: [ArtistSeen] { get }
+    func fetch() async
+}
+
+class ConcertsViewModel: ConcertsViewModelProtocol, ObservableObject {
     
     private let setlistApi = SetlistApi()
     

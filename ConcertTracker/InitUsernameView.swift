@@ -26,7 +26,7 @@ struct InitUsernameView: View {
                     .padding()
                     .textFieldStyle(.roundedBorder)
                 
-                NavigationLink(destination: ConcertsView()) {
+                NavigationLink(destination: ConcertsView(viewModel: ConcertsViewModel())) {
                     
                     Text("Submit")
 

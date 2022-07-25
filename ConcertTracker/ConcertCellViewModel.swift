@@ -7,7 +7,12 @@
 
 import Foundation
 
-struct ConcertCellViewModel {
+protocol ConcertCellViewModelProtocol {
+    var displayString: String { get }
+    var setlist: Setlist { get }
+}
+
+struct ConcertCellViewModel: ConcertCellViewModelProtocol {
 
     private static var dateFormatter: DateFormatter = {
         let _dateFormatter = DateFormatter()
@@ -31,5 +36,9 @@ struct ConcertCellViewModel {
         }()
 
         return "\(dateString) - \(self.show.venue.name)"
+    }
+
+    var setlist: Setlist {
+        self.show.setlist
     }
 }
