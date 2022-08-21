@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ArtistCell: View {
 
-    @State private var isExpanded: Bool = true //false
+    @State private var isExpanded: Bool = false
 
     private let artistShowsSeen: ArtistSeen
     init(artistShowsSeen: ArtistSeen) {
@@ -29,7 +29,7 @@ struct ArtistCell: View {
                 }
 
                 Text(self.artistShowsSeen.name)
-                    .font(.headline)
+                    .font(.title2)
 
                 Spacer()
             }
@@ -127,7 +127,7 @@ struct ConcertCell: View {
                 Image("music.note.list")
                     .padding(.trailing)
             }
-        }
+        }.foregroundColor(.black)
     }
 }
 

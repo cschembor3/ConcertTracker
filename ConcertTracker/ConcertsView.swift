@@ -24,7 +24,8 @@ struct ConcertsView: View {
                     ForEach(viewModel.concertsAttended) { artistSeen in
                         ArtistCell(artistShowsSeen: artistSeen)
                             .padding(.leading)
-                            .padding(.top, 2)
+                            .padding(.top, 5)
+                            .padding(.bottom, 5)
                     }
                 }
                 
