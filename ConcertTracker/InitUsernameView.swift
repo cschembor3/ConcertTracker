@@ -25,23 +25,16 @@ struct InitUsernameView: View {
                     .disableAutocorrection(true)
                     .padding()
                     .textFieldStyle(.roundedBorder)
-                
-                NavigationLink(destination: ConcertsView(viewModel: ConcertsViewModel())) {
-                    
-                    Text("Submit")
 
-//                    Task{
-//                        let response = try! await SetlistApi().getConcertsAttended(for: username)
-//                        bands = response.setlist.map { $0.artist.name }
-//                    }
-                }
-                
-//                List {
-//                    ForEach(bands, id: \.self) { band in
-//                        Text(band)
-//                    }
-//                }
-                
+                Button(action: {
+                    let service = UserDefaultsService()
+                    service.setValue(username, for: UserDefaultsValues.usernameKey)
+                }, label: {
+                    NavigationLink(destination: ConcertsView(viewModel: ConcertsViewModel())) {
+                        Text("Submit")
+                    }
+                })
+
                 Spacer()
                 Spacer()
             }

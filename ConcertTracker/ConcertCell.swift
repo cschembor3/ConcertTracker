@@ -127,7 +127,8 @@ struct ConcertCell: View {
                 Image("music.note.list")
                     .padding(.trailing)
             }
-        }.foregroundColor(.black)
+        }
+        .foregroundColor(.black)
     }
 }
 

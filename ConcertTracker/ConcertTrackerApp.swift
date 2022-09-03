@@ -11,7 +11,11 @@ import SwiftUI
 struct ConcertTrackerApp: App {
     var body: some Scene {
         WindowGroup {
-            InitUsernameView()
+            if let _: String? = UserDefaultsService().getValue(for: UserDefaultsValues.usernameKey) {
+                ConcertsView(viewModel: ConcertsViewModel())
+            } else {
+                InitUsernameView()
+            }
         }
     }
 }
