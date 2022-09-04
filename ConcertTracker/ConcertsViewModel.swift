@@ -21,8 +21,10 @@ class ConcertsViewModel: ConcertsViewModelProtocol, ObservableObject {
     func fetch() async {
         
         do {
+            let username: String? = UserDefaultsService().getValue(for: UserDefaultsValues.usernameKey)
+            guard let username else { return }
             self.concertsAttended = try await SetlistService(setlistApi: self.setlistApi)
-                .getConcertsAttended(for: "cschembor", sortedBy: .dateDescending)
+                .getConcertsAttended(for: username, sortedBy: .dateDescending)
         } catch {
             // TODO: handle error
         }

@@ -11,7 +11,7 @@ import SwiftUI
 struct ConcertTrackerApp: App {
     var body: some Scene {
         WindowGroup {
-            if let _: String? = UserDefaultsService().getValue(for: UserDefaultsValues.usernameKey) {
+            if UserDefaultsService().valueExists(for: UserDefaultsValues.usernameKey) {
                 ConcertsView(viewModel: ConcertsViewModel())
             } else {
                 InitUsernameView()

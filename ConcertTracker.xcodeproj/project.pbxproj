@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		D20D0D2D28C3B12F00C2BD25 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20D0D2C28C3B12F00C2BD25 /* UserDefaultsService.swift */; };
+		D20D0D3628C3D0FA00C2BD25 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20D0D3528C3D0FA00C2BD25 /* Constants.swift */; };
 		D252D861285E835300A4B79D /* ConcertCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D252D860285E835300A4B79D /* ConcertCellViewModel.swift */; };
 		D252D863285FA45200A4B79D /* SetlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D252D862285FA45200A4B79D /* SetlistView.swift */; };
+		D2608E3D28C4F76C004FB9AE /* LocalizableStrings.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2608E3F28C4F76C004FB9AE /* LocalizableStrings.strings */; };
 		D2796A092842742E007016CE /* ConcertTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2796A082842742E007016CE /* ConcertTrackerApp.swift */; };
 		D2796A0B2842742E007016CE /* InitUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2796A0A2842742E007016CE /* InitUsernameView.swift */; };
 		D2796A0D28427431007016CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2796A0C28427431007016CE /* Assets.xcassets */; };
@@ -45,8 +47,10 @@
 
 /* Begin PBXFileReference section */
 		D20D0D2C28C3B12F00C2BD25 /* UserDefaultsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
+		D20D0D3528C3D0FA00C2BD25 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D252D860285E835300A4B79D /* ConcertCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCellViewModel.swift; sourceTree = "<group>"; };
 		D252D862285FA45200A4B79D /* SetlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetlistView.swift; sourceTree = "<group>"; };
+		D2608E3E28C4F76C004FB9AE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LocalizableStrings.strings; sourceTree = "<group>"; };
 		D2796A052842742E007016CE /* ConcertTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConcertTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2796A082842742E007016CE /* ConcertTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertTrackerApp.swift; sourceTree = "<group>"; };
 		D2796A0A2842742E007016CE /* InitUsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitUsernameView.swift; sourceTree = "<group>"; };
@@ -127,6 +131,8 @@
 				D2D8D8862856A88300658B9A /* ConcertCell.swift */,
 				D252D860285E835300A4B79D /* ConcertCellViewModel.swift */,
 				D252D862285FA45200A4B79D /* SetlistView.swift */,
+				D2608E3F28C4F76C004FB9AE /* LocalizableStrings.strings */,
+				D20D0D3528C3D0FA00C2BD25 /* Constants.swift */,
 			);
 			path = ConcertTracker;
 			sourceTree = "<group>";
@@ -277,6 +283,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2608E3D28C4F76C004FB9AE /* LocalizableStrings.strings in Resources */,
 				D2796A1028427431007016CE /* Preview Assets.xcassets in Resources */,
 				D2796A0D28427431007016CE /* Assets.xcassets in Resources */,
 			);
@@ -310,6 +317,7 @@
 				D2D8D8872856A88300658B9A /* ConcertCell.swift in Sources */,
 				D2F98513284EDD2E00D56104 /* ConcertsView.swift in Sources */,
 				D252D861285E835300A4B79D /* ConcertCellViewModel.swift in Sources */,
+				D20D0D3628C3D0FA00C2BD25 /* Constants.swift in Sources */,
 				D2F98515285185A000D56104 /* ConcertsViewModel.swift in Sources */,
 				D2796A3428427527007016CE /* SetlistApi.swift in Sources */,
 				D252D863285FA45200A4B79D /* SetlistView.swift in Sources */,
@@ -349,6 +357,17 @@
 			targetProxy = D2796A2028427432007016CE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D2608E3F28C4F76C004FB9AE /* LocalizableStrings.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D2608E3E28C4F76C004FB9AE /* en */,
+			);
+			name = LocalizableStrings.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		D2796A2728427432007016CE /* Debug */ = {

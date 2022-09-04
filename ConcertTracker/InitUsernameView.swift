@@ -18,7 +18,7 @@ struct InitUsernameView: View {
             VStack {
                 Spacer()
                 
-                Text("Concert Tracker")
+                Text(Constants.Login.headerText)
                     .padding()
                 
                 TextField("User name", text: $username)
@@ -26,14 +26,12 @@ struct InitUsernameView: View {
                     .padding()
                     .textFieldStyle(.roundedBorder)
 
-                Button(action: {
+                NavigationLink(destination: ConcertsView(viewModel: ConcertsViewModel())) {
+                    Text("Submit")
+                }.simultaneousGesture(TapGesture().onEnded({
                     let service = UserDefaultsService()
                     service.setValue(username, for: UserDefaultsValues.usernameKey)
-                }, label: {
-                    NavigationLink(destination: ConcertsView(viewModel: ConcertsViewModel())) {
-                        Text("Submit")
-                    }
-                })
+                }))
 
                 Spacer()
                 Spacer()

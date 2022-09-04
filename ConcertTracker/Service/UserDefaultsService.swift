@@ -18,6 +18,12 @@ class UserDefaultsService: UserDefaultsServiceProtocol {
     }
 }
 
+extension UserDefaultsServiceProtocol {
+    func valueExists(for key: String) -> Bool {
+        UserDefaults.standard.object(forKey: key) != nil
+    }
+}
+
 protocol UserDefaultsServiceProtocol {
     func getValue<T>(for key: String) -> T?
     func setValue<T>(_ value: T, for key: String)

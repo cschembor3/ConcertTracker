@@ -1,0 +1,9 @@
+/* 
+  LocalizableStrings.strings
+  ConcertTracker
+
+  Created by Connor Schembor on 9/3/22.
+  
+*/
+
+"loginHeaderText" = "Concert Tracker";
