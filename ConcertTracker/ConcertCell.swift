@@ -110,6 +110,8 @@ struct ArtistCell_Previews: PreviewProvider {
 
 struct ConcertCell: View {
 
+    @Environment(\.colorScheme) var colorScheme
+
     private let viewModel: ConcertCellViewModelProtocol
     init(with viewModel: ConcertCellViewModelProtocol) {
         self.viewModel = viewModel
@@ -128,7 +130,7 @@ struct ConcertCell: View {
                     .padding(.trailing)
             }
         }
-        .foregroundColor(.black)
+        .foregroundColor(colorScheme == .dark ? .white : .black)
     }
 }
 
