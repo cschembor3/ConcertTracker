@@ -21,7 +21,7 @@ struct SetlistView: View {
                 Text(song.songName)
             }
         }
-        .navigationTitle("Deftones")
+        .navigationTitle(self.setlist.artist)
         .padding(.bottom)
     }
 }
