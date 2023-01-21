@@ -11,7 +11,11 @@
 		D20D0D3628C3D0FA00C2BD25 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20D0D3528C3D0FA00C2BD25 /* Constants.swift */; };
 		D252D861285E835300A4B79D /* ConcertCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D252D860285E835300A4B79D /* ConcertCellViewModel.swift */; };
 		D252D863285FA45200A4B79D /* SetlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D252D862285FA45200A4B79D /* SetlistView.swift */; };
-		D2608E3D28C4F76C004FB9AE /* LocalizableStrings.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2608E3F28C4F76C004FB9AE /* LocalizableStrings.strings */; };
+		D25366A22969F40200C7ED6E /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D25366A12969F40200C7ED6E /* FirebaseAuth */; };
+		D25366A42969F45500C7ED6E /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D25366A32969F45500C7ED6E /* AuthenticationService.swift */; };
+		D25366A62974C5C100C7ED6E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D25366A52974C5C000C7ED6E /* GoogleService-Info.plist */; };
+		D25366A72974C5C100C7ED6E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D25366A52974C5C000C7ED6E /* GoogleService-Info.plist */; };
+		D25366A82974C5C100C7ED6E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D25366A52974C5C000C7ED6E /* GoogleService-Info.plist */; };
 		D2796A092842742E007016CE /* ConcertTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2796A082842742E007016CE /* ConcertTrackerApp.swift */; };
 		D2796A0B2842742E007016CE /* InitUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2796A0A2842742E007016CE /* InitUsernameView.swift */; };
 		D2796A0D28427431007016CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2796A0C28427431007016CE /* Assets.xcassets */; };
@@ -22,6 +26,7 @@
 		D2796A3428427527007016CE /* SetlistApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2796A3328427527007016CE /* SetlistApi.swift */; };
 		D2BDEFE2285513B9003FC4A2 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BDEFE1285513B9003FC4A2 /* Secrets.swift */; };
 		D2D8D8872856A88300658B9A /* ConcertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D8D8862856A88300658B9A /* ConcertCell.swift */; };
+		D2F4AEDB28C534A6002A05D3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2F4AEDA28C534A6002A05D3 /* Localizable.strings */; };
 		D2F98513284EDD2E00D56104 /* ConcertsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F98512284EDD2E00D56104 /* ConcertsView.swift */; };
 		D2F98515285185A000D56104 /* ConcertsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F98514285185A000D56104 /* ConcertsViewModel.swift */; };
 		D2F9851728518BC900D56104 /* ConcertsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F9851628518BC900D56104 /* ConcertsStore.swift */; };
@@ -48,9 +53,11 @@
 /* Begin PBXFileReference section */
 		D20D0D2C28C3B12F00C2BD25 /* UserDefaultsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
 		D20D0D3528C3D0FA00C2BD25 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D2207405295E2A7A00F7A918 /* ConcertTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ConcertTracker.entitlements; sourceTree = "<group>"; };
 		D252D860285E835300A4B79D /* ConcertCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCellViewModel.swift; sourceTree = "<group>"; };
 		D252D862285FA45200A4B79D /* SetlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetlistView.swift; sourceTree = "<group>"; };
-		D2608E3E28C4F76C004FB9AE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LocalizableStrings.strings; sourceTree = "<group>"; };
+		D25366A32969F45500C7ED6E /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
+		D25366A52974C5C000C7ED6E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D2796A052842742E007016CE /* ConcertTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConcertTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2796A082842742E007016CE /* ConcertTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertTrackerApp.swift; sourceTree = "<group>"; };
 		D2796A0A2842742E007016CE /* InitUsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitUsernameView.swift; sourceTree = "<group>"; };
@@ -64,6 +71,7 @@
 		D2796A3328427527007016CE /* SetlistApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetlistApi.swift; sourceTree = "<group>"; };
 		D2BDEFE1285513B9003FC4A2 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		D2D8D8862856A88300658B9A /* ConcertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCell.swift; sourceTree = "<group>"; };
+		D2F4AEDA28C534A6002A05D3 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		D2F98512284EDD2E00D56104 /* ConcertsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertsView.swift; sourceTree = "<group>"; };
 		D2F98514285185A000D56104 /* ConcertsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertsViewModel.swift; sourceTree = "<group>"; };
 		D2F9851628518BC900D56104 /* ConcertsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertsStore.swift; sourceTree = "<group>"; };
@@ -75,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D25366A22969F40200C7ED6E /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +107,8 @@
 		D27969FC2842742E007016CE = {
 			isa = PBXGroup;
 			children = (
+				D2F4AEDA28C534A6002A05D3 /* Localizable.strings */,
+				D25366A52974C5C000C7ED6E /* GoogleService-Info.plist */,
 				D2796A072842742E007016CE /* ConcertTracker */,
 				D2796A1828427432007016CE /* ConcertTrackerTests */,
 				D2796A2228427432007016CE /* ConcertTrackerUITests */,
@@ -118,6 +129,7 @@
 		D2796A072842742E007016CE /* ConcertTracker */ = {
 			isa = PBXGroup;
 			children = (
+				D2207405295E2A7A00F7A918 /* ConcertTracker.entitlements */,
 				D2796A352842F3F1007016CE /* Service */,
 				D2796A32284274BF007016CE /* Networking */,
 				D2796A082842742E007016CE /* ConcertTrackerApp.swift */,
@@ -131,7 +143,6 @@
 				D2D8D8862856A88300658B9A /* ConcertCell.swift */,
 				D252D860285E835300A4B79D /* ConcertCellViewModel.swift */,
 				D252D862285FA45200A4B79D /* SetlistView.swift */,
-				D2608E3F28C4F76C004FB9AE /* LocalizableStrings.strings */,
 				D20D0D3528C3D0FA00C2BD25 /* Constants.swift */,
 			);
 			path = ConcertTracker;
@@ -175,6 +186,7 @@
 			children = (
 				D2F9851828518C0E00D56104 /* SetlistService.swift */,
 				D20D0D2C28C3B12F00C2BD25 /* UserDefaultsService.swift */,
+				D25366A32969F45500C7ED6E /* AuthenticationService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -195,6 +207,9 @@
 			dependencies = (
 			);
 			name = ConcertTracker;
+			packageProductDependencies = (
+				D25366A12969F40200C7ED6E /* FirebaseAuth */,
+			);
 			productName = ConcertTracker;
 			productReference = D2796A052842742E007016CE /* ConcertTracker.app */;
 			productType = "com.apple.product-type.application";
@@ -267,6 +282,9 @@
 				Base,
 			);
 			mainGroup = D27969FC2842742E007016CE;
+			packageReferences = (
+				D25366A02969F40200C7ED6E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = D2796A062842742E007016CE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -283,8 +301,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2608E3D28C4F76C004FB9AE /* LocalizableStrings.strings in Resources */,
 				D2796A1028427431007016CE /* Preview Assets.xcassets in Resources */,
+				D25366A62974C5C100C7ED6E /* GoogleService-Info.plist in Resources */,
+				D2F4AEDB28C534A6002A05D3 /* Localizable.strings in Resources */,
 				D2796A0D28427431007016CE /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,6 +312,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D25366A72974C5C100C7ED6E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,6 +320,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D25366A82974C5C100C7ED6E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,6 +344,7 @@
 				D252D863285FA45200A4B79D /* SetlistView.swift in Sources */,
 				D2F9851928518C0E00D56104 /* SetlistService.swift in Sources */,
 				D2796A092842742E007016CE /* ConcertTrackerApp.swift in Sources */,
+				D25366A42969F45500C7ED6E /* AuthenticationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,17 +379,6 @@
 			targetProxy = D2796A2028427432007016CE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		D2608E3F28C4F76C004FB9AE /* LocalizableStrings.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D2608E3E28C4F76C004FB9AE /* en */,
-			);
-			name = LocalizableStrings.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		D2796A2728427432007016CE /* Debug */ = {
@@ -421,7 +432,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -476,7 +489,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -491,6 +506,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ConcertTracker/ConcertTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ConcertTracker/Preview Content\"";
@@ -502,6 +518,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -520,6 +537,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ConcertTracker/ConcertTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ConcertTracker/Preview Content\"";
@@ -531,6 +549,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -553,7 +572,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YD9249X8JH;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cschembor.ConcertTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -573,7 +592,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YD9249X8JH;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cschembor.ConcertTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -592,6 +611,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YD9249X8JH;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cschembor.ConcertTrackerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -610,6 +630,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YD9249X8JH;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cschembor.ConcertTrackerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -660,6 +681,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D25366A02969F40200C7ED6E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D25366A12969F40200C7ED6E /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D25366A02969F40200C7ED6E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D27969FD2842742E007016CE /* Project object */;
 }

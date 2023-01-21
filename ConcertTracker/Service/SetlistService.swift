@@ -8,6 +8,7 @@
 import Foundation
 
 protocol SetlistServiceInterface {
+    func search(artistName: String) async throws -> ArtistSearchResponse
     func getConcertsAttended(for username: String, sortedBy: SetlistService.SortOption) async throws -> [ArtistSeen]
 }
 
@@ -22,6 +23,10 @@ class SetlistService: SetlistServiceInterface {
     private let setlistApi: SetlistApiInterface
     init(setlistApi: SetlistApiInterface) {
         self.setlistApi = setlistApi
+    }
+
+    func search(artistName: String) async throws -> ArtistSearchResponse {
+        try await self.setlistApi.searchArtists(artistName: artistName)
     }
 
     func getConcertsAttended(for username: String, sortedBy: SortOption = .alphabetically) async throws -> [ArtistSeen] {
@@ -108,11 +113,13 @@ extension Concert {
         self.venue = show.venue
         self.date = dateFormatter.date(from: show.eventDate)
         self.setlist = Setlist(
+            artist: show.artist.name,
             songs: show.sets.set.flatMap { $0.song?.map { $0.name } ?? [] }
         )
     }
 }
 
 struct Setlist: Hashable {
+    let artist: String
     let songs: [String]
 }
