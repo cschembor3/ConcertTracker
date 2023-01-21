@@ -23,16 +23,143 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1611E5C7-8B9A-48F2-8C28-8135A1F24D79"
+            uuid = "C014EE39-FC2C-4F64-9706-819F1F4B4D9A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConcertTracker/ConcertsViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "init()"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "fetch()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C014EE39-FC2C-4F64-9706-819F1F4B4D9A - ec074bb3c800873b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for ConcertTracker.ConcertsViewModel.fetch() async -&gt; ()"
+                  moduleName = "ConcertTracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/connorschembor/Documents/Projects/ConcertTracker/ConcertTracker/ConcertsViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "26"
+                  endingLineNumber = "26"
+                  offsetFromSymbolStart = "244">
+               </Location>
+               <Location
+                  uuid = "C014EE39-FC2C-4F64-9706-819F1F4B4D9A - 251ad24839f64b3d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for ConcertTracker.ConcertsViewModel.fetch() async -&gt; ()"
+                  moduleName = "ConcertTracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/connorschembor/Documents/Projects/ConcertTracker/ConcertTracker/ConcertsViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "26"
+                  endingLineNumber = "26"
+                  offsetFromSymbolStart = "108">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F0A68FBB-6EFA-4519-ACC4-94A541F94262"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ConcertTracker/ConcertsViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "fetch()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F0A68FBB-6EFA-4519-ACC4-94A541F94262 - ec074bb3c8008704"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for ConcertTracker.ConcertsViewModel.fetch() async -&gt; ()"
+                  moduleName = "ConcertTracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/connorschembor/Documents/Projects/ConcertTracker/ConcertTracker/ConcertsViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "188">
+               </Location>
+               <Location
+                  uuid = "F0A68FBB-6EFA-4519-ACC4-94A541F94262 - 251ad24839f64b02"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for ConcertTracker.ConcertsViewModel.fetch() async -&gt; ()"
+                  moduleName = "ConcertTracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/connorschembor/Documents/Projects/ConcertTracker/ConcertTracker/ConcertsViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "F0A68FBB-6EFA-4519-ACC4-94A541F94262 - 869f19d531109101"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for ConcertTracker.ConcertsViewModel.fetch() async -&gt; ()"
+                  moduleName = "ConcertTracker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/connorschembor/Documents/Projects/ConcertTracker/ConcertTracker/ConcertsViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "52">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "77AA1F2F-B7C8-4D68-9296-7766B3E6AC24"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ConcertTracker/Service/UserDefaultsService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "13"
+            endingLineNumber = "13"
+            landmarkName = "getValue(for:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BC309E7E-FED0-437A-8A4B-75128ACA0793"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ConcertTracker/Service/UserDefaultsService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "setValue(_:for:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

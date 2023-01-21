@@ -78,11 +78,9 @@ struct ArtistCell_Previews: PreviewProvider {
                                 country: Country(code: "", name: "US")
                             )
                         ),
-                        setlist: Setlist(
-                            artist: "Deftones",
-                            songs: [
-                                "Be quiet"
-                            ]),
+                        setlist: Setlist(songs: [
+                            "Be quiet"
+                        ]),
                         date: nil
                     ),
                     Concert(
@@ -99,11 +97,9 @@ struct ArtistCell_Previews: PreviewProvider {
                                 country: Country(code: "", name: "US")
                             )
                         ),
-                        setlist: Setlist(
-                            artist: "Deftones",
-                            songs: [
-                                "Be quiet"
-                            ]),
+                        setlist: Setlist(songs: [
+                            "Be quiet"
+                        ]),
                         date: nil
                     )
                 ]
@@ -146,5 +142,5 @@ struct ConcertCell_Previews: PreviewProvider {
 
 class MockConcertCellViewModel: ConcertCellViewModelProtocol {
     var displayString: String = "Test"
-    var setlist: Setlist = Setlist(artist: "Deftones", songs: [])
+    var setlist: Setlist = Setlist(songs: [])
 }

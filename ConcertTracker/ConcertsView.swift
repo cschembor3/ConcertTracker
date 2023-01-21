@@ -7,46 +7,33 @@
 
 import SwiftUI
 
-struct ConcertsView<ViewModel>: View where ViewModel: ConcertsViewModelProtocol {
+struct ConcertsView: View {
 
     @State private var loading: Bool = false
-    @State private var searchText: String = ""
 
-    @ObservedObject private var viewModel: ViewModel
-    init(viewModel: ViewModel) {
+    private var viewModel: ConcertsViewModelProtocol
+    init(viewModel: ConcertsViewModelProtocol) {
         self.viewModel = viewModel
     }
 
     var body: some View {
-
-        TabView {
-                    NavigationView {
-
+        
+        NavigationView {
             ZStack {
                 ScrollView {
-
-                    TextField("search artist", text: self.$viewModel.searchText)
-                        .padding()
-//                    ForEach(viewModel.concertsAttended) { artistSeen in
-//                        ArtistCell(artistShowsSeen: artistSeen)
-//                            .padding(.leading)
-//                            .padding(.top, 5)
-//                            .padding(.bottom, 5)
-//                    }
-                    ForEach(viewModel.artists) { artistSeen in
-                        Text(artistSeen.name)
-//                        ArtistCell(artistShowsSeen: artistSeen)
-//                            .padding(.leading)
-//                            .padding(.top, 5)
-//                            .padding(.bottom, 5)
+                    ForEach(viewModel.concertsAttended) { artistSeen in
+                        ArtistCell(artistShowsSeen: artistSeen)
+                            .padding(.leading)
+                            .padding(.top, 5)
+                            .padding(.bottom, 5)
                     }
                 }
-
+                
                 ProgressView()
                     .progressViewStyle(.circular)
                     .opacity(self.loading ? 1 : 0)
             }
-            .navigationTitle(Constants.Artists.headerText)
+            .navigationTitle("Artists")
             .task {
                 Task {
                     self.loading = true
@@ -58,75 +45,54 @@ struct ConcertsView<ViewModel>: View where ViewModel: ConcertsViewModelProtocol 
         .navigationTitle("")
         .padding(.bottom)
         .navigationBarHidden(true)
-                .badge(2)
-                .tabItem {
-                    Label("Received", systemImage: "tray.and.arrow.down.fill")
-                }
-            Text("howdy")
-                .tabItem {
-                    Label("Sent", systemImage: "tray.and.arrow.up.fill")
-                }
-            Text("hola")
-                .badge("!")
-                .tabItem {
-                    Label("Account", systemImage: "person.crop.circle.fill")
-                }
-        }
-        
     }
 }
 
-//struct ConcertsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ConcertsView(viewModel: MockConcertsViewModel())
-//    }
-//}
+struct ConcertsView_Previews: PreviewProvider {
+    static var previews: some View {
+        ConcertsView(viewModel: MockConcertsViewModel())
+    }
+}
 
-//struct MockConcertsViewModel: ConcertsViewModelProtocol {
-//    var concertsAttended: [ArtistSeen] = [
-//        ArtistSeen(id: UUID().uuidString, name: "Deerhoof", shows: [
-//            Concert(
-//                id: UUID(),
-//                tour: nil,
-//                venue: Venue(
-//                    id: UUID().uuidString,
-//                    name: "Brooklyn",
-//                    city: Location(
-//                        id: UUID().uuidString,
-//                        name: "Elsewhere",
-//                        state: "New York",
-//                        stateCode: "",
-//                        country: Country(code: "", name: "US")
-//                    )
-//                ),
-//                setlist: Setlist(
-//                    artist: "Deerhoof",
-//                    songs: []
-//                ),
-//                date: nil
-//            ),
-//            Concert(
-//                id: UUID(),
-//                tour: nil,
-//                venue: Venue(
-//                    id: UUID().uuidString,
-//                    name: "Brooklyn",
-//                    city: Location(
-//                        id: UUID().uuidString,
-//                        name: "Saint Vitus",
-//                        state: "New York",
-//                        stateCode: "",
-//                        country: Country(code: "", name: "US")
-//                    )
-//                ),
-//                setlist: Setlist(
-//                    artist: "Deerhoof",
-//                    songs: []
-//                ),
-//                date: nil
-//            )
-//        ]),
-//        ArtistSeen(id: UUID().uuidString, name: "Deftones", shows: [])
-//    ]
-//    func fetch() async {}
-//}
+struct MockConcertsViewModel: ConcertsViewModelProtocol {
+    var concertsAttended: [ArtistSeen] = [
+        ArtistSeen(id: UUID().uuidString, name: "Deerhoof", shows: [
+            Concert(
+                id: UUID(),
+                tour: nil,
+                venue: Venue(
+                    id: UUID().uuidString,
+                    name: "Brooklyn",
+                    city: Location(
+                        id: UUID().uuidString,
+                        name: "Elsewhere",
+                        state: "New York",
+                        stateCode: "",
+                        country: Country(code: "", name: "US")
+                    )
+                ),
+                setlist: Setlist(songs: []),
+                date: nil
+            ),
+            Concert(
+                id: UUID(),
+                tour: nil,
+                venue: Venue(
+                    id: UUID().uuidString,
+                    name: "Brooklyn",
+                    city: Location(
+                        id: UUID().uuidString,
+                        name: "Saint Vitus",
+                        state: "New York",
+                        stateCode: "",
+                        country: Country(code: "", name: "US")
+                    )
+                ),
+                setlist: Setlist(songs: []),
+                date: nil
+            )
+        ]),
+        ArtistSeen(id: UUID().uuidString, name: "Deftones", shows: [])
+    ]
+    func fetch() async {}
+}
