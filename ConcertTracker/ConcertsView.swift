@@ -20,48 +20,35 @@ struct ConcertsView<ViewModel>: View where ViewModel: ConcertsViewModelProtocol 
     var body: some View {
 
         TabView {
-                    NavigationView {
+            NavigationView {
+                ZStack {
+                    List {
+                        ForEach(viewModel.artists) { artistSeen in
+                            Text(artistSeen.name)
+                        }
+                    }
+                    .searchable(text: self.$viewModel.searchText)
 
-            ZStack {
-                ScrollView {
-
-                    TextField("search artist", text: self.$viewModel.searchText)
-                        .padding()
-//                    ForEach(viewModel.concertsAttended) { artistSeen in
-//                        ArtistCell(artistShowsSeen: artistSeen)
-//                            .padding(.leading)
-//                            .padding(.top, 5)
-//                            .padding(.bottom, 5)
-//                    }
-                    ForEach(viewModel.artists) { artistSeen in
-                        Text(artistSeen.name)
-//                        ArtistCell(artistShowsSeen: artistSeen)
-//                            .padding(.leading)
-//                            .padding(.top, 5)
-//                            .padding(.bottom, 5)
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .opacity(self.loading ? 1 : 0)
+                }
+                .navigationTitle(Constants.Artists.headerText)
+                .task {
+                    Task {
+                        self.loading = true
+                        await self.viewModel.fetch()
+                        self.loading = false
                     }
                 }
-
-                ProgressView()
-                    .progressViewStyle(.circular)
-                    .opacity(self.loading ? 1 : 0)
             }
-            .navigationTitle(Constants.Artists.headerText)
-            .task {
-                Task {
-                    self.loading = true
-                    await self.viewModel.fetch()
-                    self.loading = false
-                }
+            .navigationTitle("")
+            .padding(.bottom)
+            .navigationBarHidden(true)
+            .badge(2)
+            .tabItem {
+                Label("Received", systemImage: "tray.and.arrow.down.fill")
             }
-        }
-        .navigationTitle("")
-        .padding(.bottom)
-        .navigationBarHidden(true)
-                .badge(2)
-                .tabItem {
-                    Label("Received", systemImage: "tray.and.arrow.down.fill")
-                }
             Text("howdy")
                 .tabItem {
                     Label("Sent", systemImage: "tray.and.arrow.up.fill")
@@ -72,7 +59,6 @@ struct ConcertsView<ViewModel>: View where ViewModel: ConcertsViewModelProtocol 
                     Label("Account", systemImage: "person.crop.circle.fill")
                 }
         }
-        
     }
 }
 
