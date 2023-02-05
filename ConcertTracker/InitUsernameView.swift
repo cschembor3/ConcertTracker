@@ -22,10 +22,12 @@ struct InitUsernameView: View {
         
         NavigationStack {
             VStack {
-                Spacer()
+//                Spacer()
 
                 Text(Constants.Login.headerText)
                     .padding()
+
+                // TODO: add spacing
 
                 SignInWithAppleButton(
                     onRequest: self.authService.setupRequestWithScopeAndNonce,

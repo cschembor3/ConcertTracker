@@ -20,12 +20,26 @@ struct ConcertsView<ViewModel>: View where ViewModel: ConcertsViewModelProtocol 
     var body: some View {
 
         TabView {
-            NavigationView {
+            NavigationStack {
                 ZStack {
                     List {
                         ForEach(viewModel.artists) { artistSeen in
-                            Text(artistSeen.name)
+                            NavigationLink(
+                                value: ArtistData(id: artistSeen.id.uuidString, name: artistSeen.name)
+                            ) {
+                                Text(artistSeen.name)
+                            }
                         }
+                    }
+                    .navigationDestination(for: ArtistData.self) { artist in
+                        SetlistView(
+                            viewModel: ShowsViewModel(
+                                artist: (
+                                    id: artist.id.lowercased(),
+                                    name: artist.name
+                                )
+                            )
+                        )
                     }
                     .searchable(text: self.$viewModel.searchText)
 
@@ -34,85 +48,46 @@ struct ConcertsView<ViewModel>: View where ViewModel: ConcertsViewModelProtocol 
                         .opacity(self.loading ? 1 : 0)
                 }
                 .navigationTitle(Constants.Artists.headerText)
-                .task {
-                    Task {
-                        self.loading = true
-                        await self.viewModel.fetch()
-                        self.loading = false
-                    }
-                }
             }
             .navigationTitle("")
             .padding(.bottom)
             .navigationBarHidden(true)
-            .badge(2)
             .tabItem {
-                Label("Received", systemImage: "tray.and.arrow.down.fill")
+                Label("Add", systemImage: "magnifyingglass")
             }
             Text("howdy")
                 .tabItem {
-                    Label("Sent", systemImage: "tray.and.arrow.up.fill")
+                    Label("Attended", systemImage: "music.note.list")
                 }
-            Text("hola")
-                .badge("!")
-                .tabItem {
-                    Label("Account", systemImage: "person.crop.circle.fill")
-                }
+            Button("sign out") {
+                AuthenticationService().logOut()
+            }
+            .tabItem {
+                Label("Account", systemImage: "person.crop.circle.fill")
+            }
         }
     }
 }
 
-//struct ConcertsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ConcertsView(viewModel: MockConcertsViewModel())
-//    }
-//}
+struct ConcertsView_Previews: PreviewProvider {
+    static var previews: some View {
+        ConcertsView(viewModel: MockConcertsViewModel())
+    }
+}
 
-//struct MockConcertsViewModel: ConcertsViewModelProtocol {
-//    var concertsAttended: [ArtistSeen] = [
-//        ArtistSeen(id: UUID().uuidString, name: "Deerhoof", shows: [
-//            Concert(
-//                id: UUID(),
-//                tour: nil,
-//                venue: Venue(
-//                    id: UUID().uuidString,
-//                    name: "Brooklyn",
-//                    city: Location(
-//                        id: UUID().uuidString,
-//                        name: "Elsewhere",
-//                        state: "New York",
-//                        stateCode: "",
-//                        country: Country(code: "", name: "US")
-//                    )
-//                ),
-//                setlist: Setlist(
-//                    artist: "Deerhoof",
-//                    songs: []
-//                ),
-//                date: nil
-//            ),
-//            Concert(
-//                id: UUID(),
-//                tour: nil,
-//                venue: Venue(
-//                    id: UUID().uuidString,
-//                    name: "Brooklyn",
-//                    city: Location(
-//                        id: UUID().uuidString,
-//                        name: "Saint Vitus",
-//                        state: "New York",
-//                        stateCode: "",
-//                        country: Country(code: "", name: "US")
-//                    )
-//                ),
-//                setlist: Setlist(
-//                    artist: "Deerhoof",
-//                    songs: []
-//                ),
-//                date: nil
-//            )
-//        ]),
-//        ArtistSeen(id: UUID().uuidString, name: "Deftones", shows: [])
-//    ]
-//    func fetch() async {}
-//}
+class MockConcertsViewModel: ConcertsViewModelProtocol {
+
+    var artists: [ArtistSearch] = [
+        .init(id: UUID(), ticketMasterId: 33333, name: "Deftones", sortName: "", disambiguation: "", url: ""),
+        .init(id: UUID(), ticketMasterId: 44444, name: "Fleetwood Mac", sortName: "", disambiguation: "", url: ""),
+        .init(id: UUID(), ticketMasterId: 55555, name: "ZZ Top", sortName: "", disambiguation: "", url: "")
+    ]
+
+    var searchText: String = ""
+    func fetch() async {}
+}
+
+struct ArtistData: Hashable {
+    let id: String
+    let name: String
+}

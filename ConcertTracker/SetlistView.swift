@@ -9,20 +9,40 @@ import SwiftUI
 
 struct SetlistView: View {
 
-    private let setlist: Setlist
-    init(setlist: Setlist) {
-        self.setlist = setlist
+    @State private var isLoading: Bool = false
+    @State private var sets = [ShowDisplayInfo]()
+    @ObservedObject private var viewModel: ShowsViewModel
+
+    init(viewModel: ShowsViewModel) {
+        self.viewModel = viewModel
     }
 
     var body: some View {
 
-        List {
-            ForEach(self.setlist.songs.map { IdentifiableSong(songName: $0)}) { song in
-                Text(song.songName)
+        ZStack {
+
+            List(sets, id: \.id) { artistSet in
+                NavigationLink(value: artistSet) {
+                    Text("\(artistSet.formattedDate) - \(artistSet.venueName ?? "")")
+                }
             }
+            .id(UUID())
+            .navigationDestination(for: ShowDisplayInfo.self) { setlist in
+                Text(setlist.venueName!)
+                List(setlist.setlist) { song in
+                    Text(song.name)
+                }
+            }
+
+            ProgressView()
+                .opacity(self.isLoading ? 1 : 0)
         }
-        .navigationTitle(self.setlist.artist)
-        .padding(.bottom)
+        .navigationTitle(self.viewModel.artistName)
+        .task {
+            self.isLoading = true
+            self.sets = await self.viewModel.fetch()
+            self.isLoading = false
+        }
     }
 }
 
@@ -34,8 +54,8 @@ struct IdentifiableSong: Identifiable {
     }
 }
 
-//struct SetlistView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SetlistView()
-//    }
-//}
+struct SetlistView_Previews: PreviewProvider {
+    static var previews: some View {
+        SetlistView(viewModel: ShowsViewModel(artist: (id: "12345", name: "Deftones")))
+    }
+}

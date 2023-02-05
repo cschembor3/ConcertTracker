@@ -9,17 +9,14 @@ import Combine
 import Foundation
 
 @MainActor protocol ConcertsViewModelProtocol: ObservableObject {
-    var concertsAttended: [ArtistSeen] { get }
     var artists: [ArtistSearch] { get }
     var searchText: String { get set }
-    func fetch() async
 }
 
-class ConcertsViewModel: ConcertsViewModelProtocol {
+final class ConcertsViewModel: ConcertsViewModelProtocol {
 
     private let setlistApi = SetlistApi()
     
-    @Published private(set) var concertsAttended: [ArtistSeen] = []
     @Published private(set) var artists: [ArtistSearch] = []
     @Published var searchText: String = ""
 
@@ -29,36 +26,21 @@ class ConcertsViewModel: ConcertsViewModelProtocol {
         $searchText
             .debounce(for: .milliseconds(200), scheduler: RunLoop.main)
             .sink { query in
-                Task { @MainActor in
-                    do {
-                        self.artists = try await SetlistService(setlistApi: self.setlistApi)
-                            .search(artistName: query)
-                            .artist ?? []
-                    } catch {
-                        print(error)
-                    }
+                Task {
+                    await self.fetch(artistNameQuery: query)
                 }
             }
             .store(in: &self.cancellables)
     }
 
-    func fetch() async {
+    private func fetch(artistNameQuery: String) async {
 
         do {
             self.artists = try await SetlistService(setlistApi: self.setlistApi)
-                .search(artistName: "beat")
+                .search(artistName: artistNameQuery)
                 .artist ?? []
         } catch {
             print(error)
         }
-        
-//        do {
-//            let username: String? = UserDefaultsService().getValue(for: UserDefaultsValues.usernameKey)
-//            guard let username else { return }
-//            self.concertsAttended = try await SetlistService(setlistApi: self.setlistApi)
-//                .getConcertsAttended(for: username, sortedBy: .dateDescending)
-//        } catch {
-//            // TODO: handle error
-//        }
     }
 }

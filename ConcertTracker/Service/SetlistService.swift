@@ -31,7 +31,7 @@ class SetlistService: SetlistServiceInterface {
 
     func getConcertsAttended(for username: String, sortedBy: SortOption = .alphabetically) async throws -> [ArtistSeen] {
         let response = try await self.setlistApi.getConcertsAttended(for: username)
-        let artists = Dictionary(grouping: response.setlist, by: {$0.artist.mbid})
+        let artists = Dictionary(grouping: response.setlist, by: {$0.artist.id})
         var data: [ArtistSeen] = []
         artists.forEach { (artistId, artist) in
             let concerts = artist.map { show in
@@ -41,7 +41,7 @@ class SetlistService: SetlistServiceInterface {
             guard let name = artist.first?.artist.name else { return }
             data.append(
                 ArtistSeen(
-                    id: artistId,
+                    id: artistId.uuidString,
                     name: name,
                     shows: concerts
                 )

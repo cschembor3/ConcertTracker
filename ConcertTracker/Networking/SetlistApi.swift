@@ -8,6 +8,7 @@
 import Foundation
 
 protocol SetlistApiInterface {
+    func getArtistSetlists(id: String) async throws -> UserSetlistResponse
     func getConcertsAttended(for username: String) async throws -> UserSetlistResponse
     func searchArtists(artistName: String) async throws -> ArtistSearchResponse
 }
@@ -30,16 +31,18 @@ struct SetlistApi: SetlistApiInterface {
         return try JSONDecoder().decode(ArtistSearchResponse.self, from: data)
     }
 
-//    func getArtistSetlists(id: String) async throws -> Response {
-//
-//        guard let url = URL(string: "\(SetlistApi.baseUrl)/\(id)/setlists") else {
-//            throw URLError(.badURL)
-//        }
-//
-//        let request = constructGetRequest(from: url)
-//        let (data, _) = try await URLSession.shared.data(for: request)
-//        return try JSONDecoder().decode(Response.self, from: data)
-//    }
+    func getArtistSetlists(id: String) async throws -> UserSetlistResponse {
+
+        let id = id.lowercased()
+
+        guard let url = URL(string: "\(SetlistApi.baseUrl)/artist/\(id)/setlists") else {
+            throw URLError(.badURL)
+        }
+
+        let request = constructGetRequest(from: url)
+        let (data, _) = try await URLSession.shared.data(for: request)
+        return try JSONDecoder().decode(UserSetlistResponse.self, from: data)
+    }
 
     func getSetlist(id: String) async throws -> SetlistResponse {
 
@@ -103,8 +106,8 @@ struct ArtistSearchResponse: Codable {
 }
 
 struct ArtistSearch: Codable, Identifiable {
-    let id: String
-    let ticketMasterId: String?
+    let id: UUID
+    let ticketMasterId: Int?
     let name: String
     let sortName: String
     let disambiguation: String
@@ -121,14 +124,14 @@ struct ArtistSearch: Codable, Identifiable {
 }
 
 struct UserSetlistResponse: Codable {
-    let type: String
-    let itemsPerPage: Int
-    let page: Int
-    let total: Int
+    let type: String?
+    let itemsPerPage: Int?
+    let page: Int?
+    let total: Int?
     let setlist: [SetlistResponse]
 }
 
-struct SetlistResponse: Codable {
+struct SetlistResponse: Codable, Identifiable {
     let id: String
     let versionId: String
     let eventDate: String
@@ -139,42 +142,63 @@ struct SetlistResponse: Codable {
     let url: String
 }
 
-struct Artist: Codable {
-    let mbid:  String
+struct Artist: Codable, Identifiable {
+    let id: UUID
     let name: String
+
+    enum CodingKeys: String, CodingKey {
+        case id = "mbid"
+        case name
+    }
 }
 
 struct Venue: Codable, Hashable {
     let id: String
-    let name: String
+    let name: String?
     let city: Location
 }
 
 struct Location: Codable, Hashable {
     let id: String
-    let name: String
-    let state: String
-    let stateCode: String
-    let country: Country
+    let name: String?
+    let state: String?
+    let stateCode: String?
+    let country: Country?
 }
 
 struct Country: Codable, Hashable {
-    let code: String
-    let name: String
+    let code: String?
+    let name: String?
 }
 
 struct Tour: Codable, Hashable {
-    let name: String
+    let name: String?
 }
 
-struct Sets: Codable {
+struct Sets: Codable, Hashable {
     let set: [Songs]
 }
 
-struct Songs: Codable {
+struct Songs: Codable, Hashable {
     let song: [Song]?
 }
 
-struct Song: Codable {
+struct Song: Codable, Hashable, Identifiable {
+    let id: UUID
     let name: String
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let name = try container.decode(String.self, forKey: .name)
+        self.init(name: name)
+    }
+
+    init(name: String) {
+        self.name = name
+        self.id = UUID()
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case name
+    }
 }

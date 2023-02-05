@@ -16,9 +16,25 @@ protocol AuthenticationServiceProtocol {
     func signUp(email: String, password: String)
 }
 
-class AuthenticationService: NSObject, AuthenticationServiceProtocol {
+class AuthenticationService: NSObject, ObservableObject, AuthenticationServiceProtocol {
 
-    private var currentNonce: String?
+    @Published var user: User? = nil
+
+    private var authHandler: AuthStateDidChangeListenerHandle? = nil
+    private var currentNonce: String? = nil
+
+    override init() {
+        super.init()
+        self.user = Auth.auth().currentUser
+        self.authHandler = Auth.auth().addStateDidChangeListener({ [weak self] (auth, signedInUser) in
+            guard let self else { return }
+            if let signedInUser {
+                self.user = signedInUser
+            } else {
+                self.user = nil
+            }
+        })
+    }
 
     func logIn(email: String, password: String) {
 

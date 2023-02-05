@@ -122,19 +122,20 @@ struct ConcertCell: View {
     }
 
     var body: some View {
-        NavigationLink(destination: SetlistView(setlist: self.viewModel.setlist)) {
-            HStack {
-                Text(self.viewModel.displayString)
-                    .font(.body)
-                    .padding(.leading)
-
-                Spacer()
-
-                Image("music.note.list")
-                    .padding(.trailing)
-            }
-        }
-        .foregroundColor(colorScheme == .dark ? .white : .black)
+//        NavigationLink(destination: SetlistView(artist: (id: "12345", name: "Deftones"))) {
+//            HStack {
+//                Text(self.viewModel.displayString)
+//                    .font(.body)
+//                    .padding(.leading)
+//
+//                Spacer()
+//
+//                Image("music.note.list")
+//                    .padding(.trailing)
+//            }
+//        }
+//        .foregroundColor(colorScheme == .dark ? .white : .black)
+        Text("hi")
     }
 }
 
