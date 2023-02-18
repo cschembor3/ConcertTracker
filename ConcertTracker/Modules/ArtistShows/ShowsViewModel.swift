@@ -1,5 +1,5 @@
 //
-//  ShowsViewModel.swift
+//  ArtistShowsViewModel.swift
 //  ConcertTracker
 //
 //  Created by Connor Schembor on 2/4/23.
@@ -8,10 +8,9 @@
 import Foundation
 
 @MainActor
-final class ShowsViewModel: ObservableObject {
+final class ArtistShowsViewModel: ObservableObject {
 
     @Published private(set) var shows = [ShowDisplayInfo]()
-
 
     private let artist: (id: String, name: String)
     private let setlistApi: SetlistApiInterface

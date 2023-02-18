@@ -16,7 +16,7 @@ struct SplashScreen: View {
 
         Group {
             if authService.user != nil {
-                ConcertsView(viewModel: ConcertsViewModel())
+                ArtistsView(viewModel: ArtistsViewModel())
             } else {
                 InitUsernameView()
             }

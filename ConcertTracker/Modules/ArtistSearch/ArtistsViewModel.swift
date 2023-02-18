@@ -1,5 +1,5 @@
 //
-//  ConcertsViewModel.swift
+//  ArtistsViewModel.swift
 //  ConcertTracker
 //
 //  Created by Connor Schembor on 6/8/22.
@@ -8,12 +8,12 @@
 import Combine
 import Foundation
 
-@MainActor protocol ConcertsViewModelProtocol: ObservableObject {
+@MainActor protocol ArtistsViewModelProtocol: ObservableObject {
     var artists: [ArtistSearch] { get }
     var searchText: String { get set }
 }
 
-final class ConcertsViewModel: ConcertsViewModelProtocol {
+final class ArtistsViewModel: ArtistsViewModelProtocol {
 
     private let setlistApi = SetlistApi()
     

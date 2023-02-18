@@ -1,5 +1,5 @@
 //
-//  ConcertsView.swift
+//  ArtistsView.swift
 //  ConcertTracker
 //
 //  Created by Connor Schembor on 6/6/22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ConcertsView<ViewModel>: View where ViewModel: ConcertsViewModelProtocol {
+struct ArtistsView<ViewModel>: View where ViewModel: ArtistsViewModelProtocol {
 
     @State private var loading: Bool = false
     @State private var searchText: String = ""
@@ -32,8 +32,8 @@ struct ConcertsView<ViewModel>: View where ViewModel: ConcertsViewModelProtocol 
                         }
                     }
                     .navigationDestination(for: ArtistData.self) { artist in
-                        SetlistView(
-                            viewModel: ShowsViewModel(
+                        ArtistShowsView(
+                            viewModel: ArtistShowsViewModel(
                                 artist: (
                                     id: artist.id.lowercased(),
                                     name: artist.name
@@ -49,6 +49,8 @@ struct ConcertsView<ViewModel>: View where ViewModel: ConcertsViewModelProtocol 
                 }
                 .navigationTitle(Constants.Artists.headerText)
             }
+            .listStyle(.inset)
+            .navigationBarTitleDisplayMode(.large)
             .navigationTitle("")
             .padding(.bottom)
             .navigationBarHidden(true)
@@ -69,13 +71,13 @@ struct ConcertsView<ViewModel>: View where ViewModel: ConcertsViewModelProtocol 
     }
 }
 
-struct ConcertsView_Previews: PreviewProvider {
+struct ArtistsView_Previews: PreviewProvider {
     static var previews: some View {
-        ConcertsView(viewModel: MockConcertsViewModel())
+        ArtistsView(viewModel: MockArtistsViewModel())
     }
 }
 
-class MockConcertsViewModel: ConcertsViewModelProtocol {
+class MockArtistsViewModel: ArtistsViewModelProtocol {
 
     var artists: [ArtistSearch] = [
         .init(id: UUID(), ticketMasterId: 33333, name: "Deftones", sortName: "", disambiguation: "", url: ""),

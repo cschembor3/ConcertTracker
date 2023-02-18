@@ -1,5 +1,5 @@
 //
-//  SetlistView.swift
+//  ArtistShowsView.swift
 //  ConcertTracker
 //
 //  Created by Connor Schembor on 6/19/22.
@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct SetlistView: View {
+struct ArtistShowsView: View {
 
     @State private var isLoading: Bool = false
     @State private var sets = [ShowDisplayInfo]()
-    @ObservedObject private var viewModel: ShowsViewModel
+    @ObservedObject private var viewModel: ArtistShowsViewModel
 
-    init(viewModel: ShowsViewModel) {
+    init(viewModel: ArtistShowsViewModel) {
         self.viewModel = viewModel
     }
 
@@ -28,10 +28,8 @@ struct SetlistView: View {
             }
             .id(UUID())
             .navigationDestination(for: ShowDisplayInfo.self) { setlist in
-                Text(setlist.venueName!)
-                List(setlist.setlist) { song in
-                    Text(song.name)
-                }
+                SetlistView(viewModel: .init(setlist: setlist.setlist))
+                    .navigationTitle(setlist.venueName ?? "")
             }
 
             ProgressView()
@@ -54,8 +52,8 @@ struct IdentifiableSong: Identifiable {
     }
 }
 
-struct SetlistView_Previews: PreviewProvider {
+struct ArtistShowsView_Previews: PreviewProvider {
     static var previews: some View {
-        SetlistView(viewModel: ShowsViewModel(artist: (id: "12345", name: "Deftones")))
+        ArtistShowsView(viewModel: ArtistShowsViewModel(artist: (id: "12345", name: "Deftones")))
     }
 }
