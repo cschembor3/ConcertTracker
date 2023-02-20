@@ -131,7 +131,7 @@ struct UserSetlistResponse: Codable {
     let setlist: [SetlistResponse]
 }
 
-struct SetlistResponse: Codable, Identifiable {
+struct SetlistResponse: Codable, Hashable, Identifiable {
     let id: String
     let versionId: String
     let eventDate: String
@@ -142,7 +142,7 @@ struct SetlistResponse: Codable, Identifiable {
     let url: String
 }
 
-struct Artist: Codable, Identifiable {
+struct Artist: Codable, Hashable, Identifiable {
     let id: UUID
     let name: String
 

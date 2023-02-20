@@ -18,9 +18,9 @@ struct ConcertTrackerApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ArtistsView(viewModel: ArtistsViewModel())
-//            SplashScreen()
-//                .environmentObject(AuthenticationService())
+//            ArtistsView(viewModel: ArtistsViewModel())
+            SplashScreen()
+                .environmentObject(AuthenticationService())
 //            if Auth.auth().currentUser != nil {
 //                ConcertsView(viewModel: ConcertsViewModel())
 //            } else {

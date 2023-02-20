@@ -24,7 +24,7 @@ struct SetlistView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("I was here") {
-                    
+                    viewModel.save()
                 }
             }
         }

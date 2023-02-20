@@ -28,7 +28,7 @@ struct ArtistShowsView: View {
             }
             .id(UUID())
             .navigationDestination(for: ShowDisplayInfo.self) { setlist in
-                SetlistView(viewModel: .init(setlist: setlist.setlist))
+                SetlistView(viewModel: .init(response: setlist.setlistResponse))
                     .navigationTitle(setlist.venueName ?? "")
             }
 

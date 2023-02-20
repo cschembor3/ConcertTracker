@@ -15,4 +15,14 @@ final class SetlistViewModel: ObservableObject {
     init(setlist: [Song]) {
         self.songs = setlist
     }
+
+    private var response: SetlistResponse? = nil
+    init(response: SetlistResponse) {
+        self.response = response
+        self.songs = []
+    }
+
+    func save() {
+        UserConcertsService().addShowAsAttended(self.response!)
+    }
 }

@@ -49,7 +49,7 @@ struct ArtistsView<ViewModel>: View where ViewModel: ArtistsViewModelProtocol {
                 }
                 .navigationTitle(Constants.Artists.headerText)
             }
-            .listStyle(.inset)
+            .listStyle(.insetGrouped)
             .navigationBarTitleDisplayMode(.large)
             .navigationTitle("")
             .padding(.bottom)

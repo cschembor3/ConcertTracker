@@ -56,8 +56,11 @@ struct ShowDisplayInfo: Identifiable, Hashable {
     let formattedDate: String
     let venueName: String?
     let setlist: [Song]
+    let setlistResponse: SetlistResponse
 
     init(setlistResponse: SetlistResponse) {
+        self.setlistResponse = setlistResponse
+        
         self.id = setlistResponse.id
         self.venueName = setlistResponse.venue.name
         self.setlist = setlistResponse.sets.set.flatMap { $0.song ?? [] }
