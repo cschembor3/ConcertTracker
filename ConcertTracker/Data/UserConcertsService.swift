@@ -8,16 +8,48 @@
 import FirebaseDatabase
 
 protocol UserConcertsServiceProtocol {
-    func getShowsAttended()
     func getSetlist(concertId: String)
+    func getShowsAttended() async -> [UserShowDbModel]
 }
 
 final class UserConcertsService: UserConcertsServiceProtocol {
 
     private let reference = Database.database().reference()
 
-    func getShowsAttended() {
+    private lazy var databasePath: DatabaseReference? = {
+        guard let userId = AuthenticationService().user?.uid else { return nil }
+        return reference.ref.child("users/\(userId)/showsAttended")
+    }()
 
+    func getShowsAttended() async -> [UserShowDbModel] {
+
+        let showsAttended: [UserShowDbModel] = await withCheckedContinuation { continuation in
+
+            guard let databasePath else {
+                continuation.resume(returning: [])
+                return
+            }
+
+            databasePath.observeSingleEvent(of: .value, with: { data in
+
+                guard let json = data.value as? [String: Any] else {
+                    continuation.resume(returning: [])
+                    return
+                }
+
+                do {
+                    let data = try JSONSerialization.data(withJSONObject: json)
+                    let showsDecoded = try JSONDecoder().decode([String: UserShowDbModel].self, from: data)
+                    let shows = showsDecoded.values.map { $0 }
+                    continuation.resume(returning: shows)
+                } catch {
+                    print(error)
+                    continuation.resume(returning: [])
+                }
+            })
+        }
+
+        return showsAttended
     }
 
     func getSetlist(concertId: String) {
@@ -28,12 +60,20 @@ final class UserConcertsService: UserConcertsServiceProtocol {
 
         let user = AuthenticationService().user!
 
-        self.reference
-            .ref
-            .child("users")
-            .child(user.uid)
-            .child("showsAttended")
-            .updateChildValues([show.artist.id.uuidString: true])
+        do {
+            let userShowData = try JSONEncoder().encode(show.toUserShowDbModel())
+            let userShow = try JSONSerialization.jsonObject(with: userShowData)
+
+            self.reference
+                .ref
+                .child("users")
+                .child(user.uid)
+                .child("showsAttended")
+                .updateChildValues([show.id: userShow])
+        } catch {
+
+        }
+
 
         self.reference
             .ref
@@ -72,45 +112,6 @@ final class UserConcertsService: UserConcertsServiceProtocol {
     }
 }
 
-/*
-
- Users:
- {
-   userId: "3456",
-   showsAttended: {
-     "1234",
-     "12345"
-   }
- }
-
- Artists:
- {
-   id: "234234",
-   name: "Deftones",
-   shows: [
-     id: "2468",
-     id: "0909"
-   ]
- }
-
- Shows:
- {
-   id: "9876",
-   artistId: "234234",
-   venue: {
-     id: "11222",
-     name: "Saint Vitus Bar",
-     city: "Brooklyn",
-     state: "NY
-   },
-   songs: [
-     name: "Take on me",
-     name: "Come sail away"
-   ]
- }
-
- */
-
 struct ShowDbModel: Codable {
     let id: String
     let artistId: String
@@ -129,7 +130,17 @@ struct ShowDbModel: Codable {
     }
 }
 
+struct UserShowDbModel: Codable {
+    let id: String
+    let artistName: String
+    let showDate: String
+}
+
 extension SetlistResponse {
+
+    func toUserShowDbModel() -> UserShowDbModel {
+        UserShowDbModel(id: self.id, artistName: self.artist.name, showDate: self.eventDate)
+    }
 
     func toDbModel() -> ShowDbModel {
         let songs = self.sets.set.compactMap { $0.song }.flatMap { $0 }.map { ShowDbModel.SongDbModel(name: $0.name) }

@@ -30,6 +30,8 @@
 		D2B3257C2995D3E4002DBCCB /* SetlistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B3257B2995D3E4002DBCCB /* SetlistViewModel.swift */; };
 		D2B3257F2999BEC2002DBCCB /* UserConcertsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B3257E2999BEC2002DBCCB /* UserConcertsService.swift */; };
 		D2B325822999C3AB002DBCCB /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = D2B325812999C3AB002DBCCB /* FirebaseDatabase */; };
+		D2B3258429A3CBBA002DBCCB /* UserShowsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B3258329A3CBBA002DBCCB /* UserShowsView.swift */; };
+		D2B3258729A3CC6C002DBCCB /* UserShowsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B3258629A3CC6C002DBCCB /* UserShowsViewModel.swift */; };
 		D2BDEFE2285513B9003FC4A2 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BDEFE1285513B9003FC4A2 /* Secrets.swift */; };
 		D2D8D8872856A88300658B9A /* ConcertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D8D8862856A88300658B9A /* ConcertCell.swift */; };
 		D2F4AEDB28C534A6002A05D3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2F4AEDA28C534A6002A05D3 /* Localizable.strings */; };
@@ -79,6 +81,8 @@
 		D2796A3328427527007016CE /* SetlistApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetlistApi.swift; sourceTree = "<group>"; };
 		D2B3257B2995D3E4002DBCCB /* SetlistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetlistViewModel.swift; sourceTree = "<group>"; };
 		D2B3257E2999BEC2002DBCCB /* UserConcertsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConcertsService.swift; sourceTree = "<group>"; };
+		D2B3258329A3CBBA002DBCCB /* UserShowsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserShowsView.swift; sourceTree = "<group>"; };
+		D2B3258629A3CC6C002DBCCB /* UserShowsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserShowsViewModel.swift; sourceTree = "<group>"; };
 		D2BDEFE1285513B9003FC4A2 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		D2D8D8862856A88300658B9A /* ConcertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcertCell.swift; sourceTree = "<group>"; };
 		D2F4AEDA28C534A6002A05D3 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
@@ -129,6 +133,7 @@
 				D22E1FDE299476A70004E8CD /* ArtistSearch */,
 				D22E1FE0299478200004E8CD /* ArtistShows */,
 				D22E1FE129947B140004E8CD /* ArtistShowSetlist */,
+				D2B3258529A3CBBE002DBCCB /* UserShows */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -184,8 +189,6 @@
 				D2796A082842742E007016CE /* ConcertTrackerApp.swift */,
 				D2796A0A2842742E007016CE /* InitUsernameView.swift */,
 				D2BDEFE1285513B9003FC4A2 /* Secrets.swift */,
-				D2D8D8862856A88300658B9A /* ConcertCell.swift */,
-				D252D860285E835300A4B79D /* ConcertCellViewModel.swift */,
 				D20D0D3528C3D0FA00C2BD25 /* Constants.swift */,
 				D242B513297DF23100EFA061 /* SplashScreen.swift */,
 				D2207405295E2A7A00F7A918 /* ConcertTracker.entitlements */,
@@ -251,6 +254,17 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D2B3258529A3CBBE002DBCCB /* UserShows */ = {
+			isa = PBXGroup;
+			children = (
+				D2B3258329A3CBBA002DBCCB /* UserShowsView.swift */,
+				D2B3258629A3CC6C002DBCCB /* UserShowsViewModel.swift */,
+				D2D8D8862856A88300658B9A /* ConcertCell.swift */,
+				D252D860285E835300A4B79D /* ConcertCellViewModel.swift */,
+			);
+			path = UserShows;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -408,9 +422,11 @@
 				D252D863285FA45200A4B79D /* ArtistShowsView.swift in Sources */,
 				D2B3257C2995D3E4002DBCCB /* SetlistViewModel.swift in Sources */,
 				D2F9851928518C0E00D56104 /* SetlistService.swift in Sources */,
+				D2B3258729A3CC6C002DBCCB /* UserShowsViewModel.swift in Sources */,
 				D2796A092842742E007016CE /* ConcertTrackerApp.swift in Sources */,
 				D25366A42969F45500C7ED6E /* AuthenticationService.swift in Sources */,
 				D242B569298EC16200EFA061 /* ShowsViewModel.swift in Sources */,
+				D2B3258429A3CBBA002DBCCB /* UserShowsView.swift in Sources */,
 				D22E1FE329947B480004E8CD /* SetlistView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

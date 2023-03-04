@@ -64,48 +64,8 @@ struct ArtistCell_Previews: PreviewProvider {
                 id: UUID().uuidString,
                 name: "Deftones",
                 shows: [
-                    Concert(
-                        id: UUID(),
-                        tour: nil,
-                        venue: Venue(
-                            id: UUID().uuidString,
-                            name: "Webster Hall",
-                            city: Location(
-                                id: UUID().uuidString,
-                                name: "New York",
-                                state: "NY",
-                                stateCode: "",
-                                country: Country(code: "", name: "US")
-                            )
-                        ),
-                        setlist: Setlist(
-                            artist: "Deftones",
-                            songs: [
-                                "Be quiet"
-                            ]),
-                        date: nil
-                    ),
-                    Concert(
-                        id: UUID(),
-                        tour: nil,
-                        venue: Venue(
-                            id: UUID().uuidString,
-                            name: "Webster Hall",
-                            city: Location(
-                                id: UUID().uuidString,
-                                name: "New York",
-                                state: "NY",
-                                stateCode: "",
-                                country: Country(code: "", name: "US")
-                            )
-                        ),
-                        setlist: Setlist(
-                            artist: "Deftones",
-                            songs: [
-                                "Be quiet"
-                            ]),
-                        date: nil
-                    )
+                    .init(id: "1", venueName: "Saint Vitus", city: "Brooklyn", date: "02/21/2023"),
+                    .init(id: "2", venueName: "Saint Vitus", city: "Brooklyn", date: "02/21/2023")
                 ]
             )
         )
@@ -122,20 +82,20 @@ struct ConcertCell: View {
     }
 
     var body: some View {
-//        NavigationLink(destination: SetlistView(artist: (id: "12345", name: "Deftones"))) {
-//            HStack {
-//                Text(self.viewModel.displayString)
-//                    .font(.body)
-//                    .padding(.leading)
-//
-//                Spacer()
-//
-//                Image("music.note.list")
-//                    .padding(.trailing)
-//            }
-//        }
-//        .foregroundColor(colorScheme == .dark ? .white : .black)
-        Text("hi")
+        NavigationLink(destination: Text("Deftones")) {
+            HStack {
+                Image("music.note")
+                    .padding(.leading)
+
+                Text(self.viewModel.displayString)
+                    .font(.body)
+                    .padding(.leading)
+
+                Spacer()
+            }
+        }
+        .isDetailLink(false)
+        .foregroundColor(colorScheme == .dark ? .white : .black)
     }
 }
 

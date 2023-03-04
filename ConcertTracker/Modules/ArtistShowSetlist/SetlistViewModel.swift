@@ -19,7 +19,7 @@ final class SetlistViewModel: ObservableObject {
     private var response: SetlistResponse? = nil
     init(response: SetlistResponse) {
         self.response = response
-        self.songs = []
+        self.songs = response.sets.set.flatMap { $0.song ?? [] }
     }
 
     func save() {

@@ -9,36 +9,37 @@ import Foundation
 
 protocol ConcertCellViewModelProtocol {
     var displayString: String { get }
-    var setlist: Setlist { get }
 }
 
 struct ConcertCellViewModel: ConcertCellViewModelProtocol {
 
-    private static var dateFormatter: DateFormatter = {
+    private static var dateStringFormatter: DateFormatter = {
         let _dateFormatter = DateFormatter()
         _dateFormatter.dateFormat = "MM/dd/yyyy"
         return _dateFormatter
     }()
 
-    private let show: Concert
-    init(for show: Concert) {
+    private static var dateFormatter: DateFormatter = {
+        let _dateFormatter = DateFormatter()
+        _dateFormatter.dateFormat = "dd/MM/yyyy"
+        return _dateFormatter
+    }()
+
+    private let show: ShowSeen
+    init(for show: ShowSeen) {
         self.show = show
     }
 
     var displayString: String {
 
         let dateString: String = {
-            guard let date = show.date else {
+            guard let date = Self.dateFormatter.date(from: show.date) else {
                 return ""
             }
 
-            return ConcertCellViewModel.dateFormatter.string(from: date)
+            return ConcertCellViewModel.dateStringFormatter.string(from: date)
         }()
 
-        return "\(dateString) - \(self.show.venue.name)"
-    }
-
-    var setlist: Setlist {
-        self.show.setlist
+        return "\(dateString) - \(show.venueName)"
     }
 }

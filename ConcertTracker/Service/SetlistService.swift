@@ -9,7 +9,6 @@ import Foundation
 
 protocol SetlistServiceInterface {
     func search(artistName: String) async throws -> ArtistSearchResponse
-    func getConcertsAttended(for username: String, sortedBy: SetlistService.SortOption) async throws -> [ArtistSeen]
 }
 
 class SetlistService: SetlistServiceInterface {
@@ -27,43 +26,6 @@ class SetlistService: SetlistServiceInterface {
 
     func search(artistName: String) async throws -> ArtistSearchResponse {
         try await self.setlistApi.searchArtists(artistName: artistName)
-    }
-
-    func getConcertsAttended(for username: String, sortedBy: SortOption = .alphabetically) async throws -> [ArtistSeen] {
-        let response = try await self.setlistApi.getConcertsAttended(for: username)
-        let artists = Dictionary(grouping: response.setlist, by: {$0.artist.id})
-        var data: [ArtistSeen] = []
-        artists.forEach { (artistId, artist) in
-            let concerts = artist.map { show in
-                Concert(from: show, dateFormatter: self.dateFormatter)
-            }
-
-            guard let name = artist.first?.artist.name else { return }
-            data.append(
-                ArtistSeen(
-                    id: artistId.uuidString,
-                    name: name,
-                    shows: concerts
-                )
-            )
-        }
-
-        switch sortedBy {
-        case .dateAscending:
-            return data.sorted { artist1, artist2 in
-                self.getMostRecentDate(from: artist1.shows) ?? Date.distantPast <
-                    self.getMostRecentDate(from: artist2.shows) ?? Date.distantPast
-            }
-        case .dateDescending:
-            return data.sorted { artist1, artist2 in
-                self.getMostRecentDate(from: artist1.shows) ?? Date.distantPast <
-                    self.getMostRecentDate(from: artist2.shows) ?? Date.distantPast
-            }.reversed()
-        case .alphabetically:
-            return data.sorted { artist1, artist2 in
-                artist1.name < artist2.name
-            }
-        }
     }
 
     enum SortOption {
@@ -89,12 +51,6 @@ class SetlistService: SetlistServiceInterface {
 
         return mostRecentShow?.date
     }
-}
-
-struct ArtistSeen: Hashable, Identifiable {
-    let id: String
-    let name: String
-    let shows: [Concert]
 }
 
 struct Concert: Hashable, Identifiable {

@@ -57,7 +57,7 @@ struct ArtistsView<ViewModel>: View where ViewModel: ArtistsViewModelProtocol {
             .tabItem {
                 Label("Add", systemImage: "magnifyingglass")
             }
-            Text("howdy")
+            UserShowsView(viewModel: UserShowsViewModel())
                 .tabItem {
                     Label("Attended", systemImage: "music.note.list")
                 }
