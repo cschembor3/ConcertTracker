@@ -14,9 +14,11 @@ protocol UserShowsViewModelProtocol: ObservableObject {
 
 struct ShowSeenEntry: Identifiable {
     let id: String
+    let name: String
     let text: String
     let type: EntryType
     let children: [ShowSeenEntry]?
+    let date: Date?
 
     enum EntryType {
         case artist
@@ -26,7 +28,12 @@ struct ShowSeenEntry: Identifiable {
 
 final class UserShowsViewModel: UserShowsViewModelProtocol {
 
-    @Published var artistsSeen = [ArtistSeen]()
+    private static var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy"
+        return formatter
+    }()
+
     @Published var entries = [ShowSeenEntry]()
 
     private let concertService: UserConcertsServiceProtocol
@@ -46,49 +53,61 @@ final class UserShowsViewModel: UserShowsViewModelProtocol {
             self.entries = artistsSeen.map { artist in
                 .init(
                     id: artist.id,
+                    name: artist.name,
                     text: artist.name,
                     type: .artist,
                     children: artist.shows.map { show in
                         .init(
                             id: show.id,
+                            name: show.venueName,
                             text: "\(show.date) - \(show.venueName)",
                             type: .show,
-                            children: nil
+                            children: nil,
+                            date: Self.dateFormatter.date(from: show.date)
                         )
-                    }
+                    },
+                    date: nil
                 )
             }
-
-            self.artistsSeen = artistsSeen
         }
     }
 
-//        switch sortedBy {
-//        case .dateAscending:
-//            return data.sorted { artist1, artist2 in
-//                self.getMostRecentDate(from: artist1.shows) ?? Date.distantPast <
-//                    self.getMostRecentDate(from: artist2.shows) ?? Date.distantPast
-//            }
-//        case .dateDescending:
-//            return data.sorted { artist1, artist2 in
-//                self.getMostRecentDate(from: artist1.shows) ?? Date.distantPast <
-//                    self.getMostRecentDate(from: artist2.shows) ?? Date.distantPast
-//            }.reversed()
-//        case .alphabetically:
-//            return data.sorted { artist1, artist2 in
-//                artist1.name < artist2.name
-//            }
-//        }
-//    }
+    func sort(_ option: SortOption) {
+        self.entries = self.getSortedEntries(sortOption: option)
+    }
+
+    private func getSortedEntries(sortOption: SortOption) -> [ShowSeenEntry] {
+        switch sortOption {
+        case .dateAscending:
+            return entries.sorted { artist1, artist2 in
+                self.getMostRecentDate(from: artist1.children ?? []) ?? Date.distantPast <
+                    self.getMostRecentDate(from: artist2.children ?? []) ?? Date.distantPast
+            }
+        case .dateDescending:
+            return entries.sorted { artist1, artist2 in
+                self.getMostRecentDate(from: artist1.children ?? []) ?? Date.distantPast <
+                    self.getMostRecentDate(from: artist2.children ?? []) ?? Date.distantPast
+            }.reversed()
+        case .alphabetically:
+            return entries.sorted { artist1, artist2 in
+                artist1.name < artist2.name
+            }
+        case .amountSeen:
+            return entries.sorted { artist1, artist2 in
+                artist1.children?.count ?? 0 > artist2.children?.count ?? 0
+            }
+        }
+    }
 
     enum SortOption {
         case dateAscending
         case dateDescending
         case alphabetically
+        case amountSeen
     }
 
-    private func getMostRecentDate(from shows: [Concert]) -> Date? {
-        let mostRecentShow = shows.reduce(nil as Concert?, { show1, show2 in
+    private func getMostRecentDate(from shows: [ShowSeenEntry]) -> Date? {
+        let mostRecentShow = shows.reduce(nil as ShowSeenEntry?, { show1, show2 in
             if let date1 = show1?.date {
                 if let date2 = show2.date {
                     return date1 > date2 ? show1 : show2
