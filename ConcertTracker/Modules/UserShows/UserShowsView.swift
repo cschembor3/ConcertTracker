@@ -35,19 +35,19 @@ struct UserShowsView<ViewModel>: View where ViewModel: UserShowsViewModelProtoco
                     Menu {
 
                         Button("A-Z") {
-
+                            self.viewModel.sort(.alphabetically)
                         }
 
                         Button("Most recent") {
-
+                            self.viewModel.sort(.dateAscending)
                         }
 
                         Button("Least recent") {
-
+                            self.viewModel.sort(.dateDescending)
                         }
 
                         Button("Most seen") {
-
+                            self.viewModel.sort(.amountSeen)
                         }
                     } label: {
 
@@ -85,4 +85,6 @@ class MockUserShowsViewModel: UserShowsViewModelProtocol {
             date: nil
         )
     ]
+
+    func sort(_ option: UserShowsViewModel.SortOption) { }
 }

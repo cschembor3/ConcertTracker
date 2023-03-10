@@ -10,6 +10,7 @@ import Foundation
 @MainActor
 protocol UserShowsViewModelProtocol: ObservableObject {
     var entries: [ShowSeenEntry] { get }
+    func sort(_ option: UserShowsViewModel.SortOption)
 }
 
 struct ShowSeenEntry: Identifiable {

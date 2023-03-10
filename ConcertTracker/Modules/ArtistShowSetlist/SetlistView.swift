@@ -21,6 +21,7 @@ struct SetlistView: View {
                 Text(song.name)
             }
         }
+        .listStyle(.insetGrouped)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("I was here") {

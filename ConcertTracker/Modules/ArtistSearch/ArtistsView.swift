@@ -49,11 +49,8 @@ struct ArtistsView<ViewModel>: View where ViewModel: ArtistsViewModelProtocol {
                 }
                 .navigationTitle(Constants.Artists.headerText)
             }
-            .listStyle(.insetGrouped)
-            .navigationBarTitleDisplayMode(.large)
-            .navigationTitle("")
+            .listStyle(.inset)
             .padding(.bottom)
-            .navigationBarHidden(true)
             .tabItem {
                 Label("Add", systemImage: "magnifyingglass")
             }

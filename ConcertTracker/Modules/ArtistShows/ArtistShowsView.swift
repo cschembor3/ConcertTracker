@@ -24,6 +24,7 @@ struct ArtistShowsView: View {
             List(sets, id: \.id) { artistSet in
                 NavigationLink(value: artistSet) {
                     Text("\(artistSet.formattedDate) - \(artistSet.venueName ?? "")")
+                        .font(.monospaced(.body)())
                 }
             }
             .id(UUID())
