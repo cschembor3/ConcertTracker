@@ -9,6 +9,7 @@ import SwiftUI
 
 struct UserShowsView<ViewModel>: View where ViewModel: UserShowsViewModelProtocol {
 
+    @State private var chosenArtist: ShowSeenEntry?
     @ObservedObject private var viewModel: ViewModel
 
     init(viewModel: ViewModel) {
@@ -18,22 +19,24 @@ struct UserShowsView<ViewModel>: View where ViewModel: UserShowsViewModelProtoco
     var body: some View {
 
         NavigationStack {
-            List(self.viewModel.entries, children: \.children) { entry in
-                switch entry.type {
-                case .artist:
-                    Text(entry.text).badge(entry.children?.count ?? 0)
-                case .show:
-                    NavigationLink(entry.text) {
-                        UserSetlistView()
+            List {
+                ForEach(self.viewModel.entries, id: \.id) { entry in
+                    Section(entry.text) {
+                        OutlineGroup(entry.children ?? [], id: \.id, children: \.children) { a in
+                            NavigationLink(a.text) {
+                                UserSetlistView()
+                            }
+                        }
                     }
+                    .headerProminence(.increased)
                 }
             }
-            .listStyle(.insetGrouped)
+            .id(UUID())
+            .listStyle(.sidebar)
             .navigationTitle("Shows attended")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
-
                         Button("A-Z") {
                             self.viewModel.sort(.alphabetically)
                         }
@@ -68,15 +71,40 @@ struct UserShowsView_Previews: PreviewProvider {
 class MockUserShowsViewModel: UserShowsViewModelProtocol {
     var entries: [ShowSeenEntry] = [
         .init(
-            id: "1",
+//            id: UUID(),
             name: "Deftones",
             text: "Deftones",
             type: .artist,
             children: [
                 .init(
-                    id: "2",
+//                    id: UUID(),
                     name: "Saint Vitus",
                     text: "12/04/1998 - Saint Vitus",
+                    type: .show,
+                    children: nil,
+                    date: nil
+                ),
+                .init(
+//                    id: UUID(),
+                    name: "Saint Vitus",
+                    text: "12/04/1998 - Saint Vitus",
+                    type: .show,
+                    children: nil,
+                    date: nil
+                )
+            ],
+            date: nil
+        ),
+        .init(
+//            id: UUID(),
+            name: "Deerhoof",
+            text: "Deerhoof",
+            type: .artist,
+            children: [
+                .init(
+//                    id: UUID(),
+                    name: "Brooklyn Monarch",
+                    text: "Brooklyn Monarch",
                     type: .show,
                     children: nil,
                     date: nil

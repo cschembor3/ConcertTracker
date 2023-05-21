@@ -10,6 +10,7 @@ import SwiftUI
 struct ArtistShowsView: View {
 
     @State private var isLoading: Bool = false
+    @State private var loadingMore: Bool = false
     @State private var sets = [ShowDisplayInfo]()
     @ObservedObject private var viewModel: ArtistShowsViewModel
 
@@ -21,10 +22,21 @@ struct ArtistShowsView: View {
 
         ZStack {
 
-            List(sets, id: \.id) { artistSet in
+            // TODO: update to paginate and fetch more results, like in ``ArtistsView``
+            List(0..<viewModel.shows.count, id: \.self) { index in
+                let artistSet = viewModel.shows[index]
                 NavigationLink(value: artistSet) {
                     Text("\(artistSet.formattedDate) - \(artistSet.venueName ?? "")")
                         .font(.monospaced(.body)())
+                }
+                .onAppear {
+                    if index == viewModel.shows.count - 1 && viewModel.hasMore {
+                        self.loadingMore = true
+                        Task {
+                            _ = await self.viewModel.fetchMore()
+                            self.loadingMore = false
+                        }
+                    }
                 }
             }
             .id(UUID())
@@ -39,7 +51,7 @@ struct ArtistShowsView: View {
         .navigationTitle(self.viewModel.artistName)
         .task {
             self.isLoading = true
-            self.sets = await self.viewModel.fetch()
+            _ = await self.viewModel.fetch()
             self.isLoading = false
         }
     }

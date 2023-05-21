@@ -39,6 +39,7 @@
 		D2F98513284EDD2E00D56104 /* ArtistsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F98512284EDD2E00D56104 /* ArtistsView.swift */; };
 		D2F98515285185A000D56104 /* ArtistsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F98514285185A000D56104 /* ArtistsViewModel.swift */; };
 		D2F9851928518C0E00D56104 /* SetlistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F9851828518C0E00D56104 /* SetlistService.swift */; };
+		D2FFCA0A29C787C500FBF80D /* UserSetlistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2FFCA0929C787C500FBF80D /* UserSetlistViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		D2F98512284EDD2E00D56104 /* ArtistsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistsView.swift; sourceTree = "<group>"; };
 		D2F98514285185A000D56104 /* ArtistsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistsViewModel.swift; sourceTree = "<group>"; };
 		D2F9851828518C0E00D56104 /* SetlistService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetlistService.swift; sourceTree = "<group>"; };
+		D2FFCA0929C787C500FBF80D /* UserSetlistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSetlistViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,13 +263,22 @@
 		D2B3258529A3CBBE002DBCCB /* UserShows */ = {
 			isa = PBXGroup;
 			children = (
+				D2FFCA0629C7879900FBF80D /* Setlist */,
 				D2B3258329A3CBBA002DBCCB /* UserShowsView.swift */,
 				D2B3258629A3CC6C002DBCCB /* UserShowsViewModel.swift */,
 				D2D8D8862856A88300658B9A /* ConcertCell.swift */,
 				D252D860285E835300A4B79D /* ConcertCellViewModel.swift */,
-				D24B45E329B54B92002DEDC8 /* UserSetlistView.swift */,
 			);
 			path = UserShows;
+			sourceTree = "<group>";
+		};
+		D2FFCA0629C7879900FBF80D /* Setlist */ = {
+			isa = PBXGroup;
+			children = (
+				D24B45E329B54B92002DEDC8 /* UserSetlistView.swift */,
+				D2FFCA0929C787C500FBF80D /* UserSetlistViewModel.swift */,
+			);
+			path = Setlist;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -429,6 +440,7 @@
 				D2B3258729A3CC6C002DBCCB /* UserShowsViewModel.swift in Sources */,
 				D2796A092842742E007016CE /* ConcertTrackerApp.swift in Sources */,
 				D25366A42969F45500C7ED6E /* AuthenticationService.swift in Sources */,
+				D2FFCA0A29C787C500FBF80D /* UserSetlistViewModel.swift in Sources */,
 				D242B569298EC16200EFA061 /* ShowsViewModel.swift in Sources */,
 				D2B3258429A3CBBA002DBCCB /* UserShowsView.swift in Sources */,
 				D22E1FE329947B480004E8CD /* SetlistView.swift in Sources */,

@@ -8,9 +8,9 @@
 import Foundation
 
 protocol SetlistApiInterface {
-    func getArtistSetlists(id: String) async throws -> UserSetlistResponse
-    func getConcertsAttended(for username: String) async throws -> UserSetlistResponse
-    func searchArtists(artistName: String) async throws -> ArtistSearchResponse
+    func getArtistSetlists(id: String, page: Int) async throws -> ArtistSetlistResponse
+    func getConcertsAttended(for username: String) async throws -> ArtistSetlistResponse
+    func searchArtists(artistName: String, page: Int) async throws -> ArtistSearchResponse
 }
 
 struct SetlistApi: SetlistApiInterface {
@@ -19,10 +19,10 @@ struct SetlistApi: SetlistApiInterface {
     private static let acceptHeader: (header: String, responseType: String) = ("Accept", "application/json")
     private static let apiKeyHeader: (header: String, apiKey: String) = ("x-api-key", Secrets.setlistApiKey)
 
-    func searchArtists(artistName: String) async throws -> ArtistSearchResponse {
+    func searchArtists(artistName: String, page: Int = 1) async throws -> ArtistSearchResponse {
 
         let encodedName = artistName.replacing(" ", with: "%20")
-        guard let url = URL(string: "\(SetlistApi.baseUrl)/search/artists?p=1&sort=relevance&artistName=\(encodedName)") else {
+        guard let url = URL(string: "\(SetlistApi.baseUrl)/search/artists?p=\(page)&sort=relevance&artistName=\(encodedName)") else {
             throw URLError(.badURL)
         }
 
@@ -31,17 +31,17 @@ struct SetlistApi: SetlistApiInterface {
         return try JSONDecoder().decode(ArtistSearchResponse.self, from: data)
     }
 
-    func getArtistSetlists(id: String) async throws -> UserSetlistResponse {
+    func getArtistSetlists(id: String, page: Int = 1) async throws -> ArtistSetlistResponse {
 
         let id = id.lowercased()
 
-        guard let url = URL(string: "\(SetlistApi.baseUrl)/artist/\(id)/setlists") else {
+        guard let url = URL(string: "\(SetlistApi.baseUrl)/artist/\(id)/setlists?p=\(page)") else {
             throw URLError(.badURL)
         }
 
         let request = constructGetRequest(from: url)
         let (data, _) = try await URLSession.shared.data(for: request)
-        return try JSONDecoder().decode(UserSetlistResponse.self, from: data)
+        return try JSONDecoder().decode(ArtistSetlistResponse.self, from: data)
     }
 
     func getSetlist(id: String) async throws -> SetlistResponse {
@@ -55,7 +55,7 @@ struct SetlistApi: SetlistApiInterface {
         return try JSONDecoder().decode(SetlistResponse.self, from: data)
     }
 
-    func getConcertsAttended(for username: String) async throws -> UserSetlistResponse {
+    func getConcertsAttended(for username: String) async throws -> ArtistSetlistResponse {
 
         guard let url = URL(string: "\(SetlistApi.baseUrl)/user/\(username)/attended?p=1") else {
             throw URLError(.badURL)
@@ -63,7 +63,7 @@ struct SetlistApi: SetlistApiInterface {
 
         let request = constructGetRequest(from: url)
         let (data,  _) = try await URLSession.shared.data(for: request)
-        return try JSONDecoder().decode(UserSetlistResponse.self, from: data)
+        return try JSONDecoder().decode(ArtistSetlistResponse.self, from: data)
     }
 }
 
@@ -123,7 +123,7 @@ struct ArtistSearch: Codable, Identifiable {
     }
 }
 
-struct UserSetlistResponse: Codable {
+struct ArtistSetlistResponse: Codable {
     let type: String?
     let itemsPerPage: Int?
     let page: Int?

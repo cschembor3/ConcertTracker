@@ -23,6 +23,6 @@ final class SetlistViewModel: ObservableObject {
     }
 
     func save() {
-        UserConcertsService().addShowAsAttended(self.response!)
+        UserConcertsService.shared.addShowAsAttended(self.response!)
     }
 }

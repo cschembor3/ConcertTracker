@@ -9,8 +9,11 @@ import SwiftUI
 
 struct ArtistsView<ViewModel>: View where ViewModel: ArtistsViewModelProtocol {
 
-    @State private var loading: Bool = false
+    @State private var intitialLoading: Bool = false
+    @State private var loadingMore: Bool = false
     @State private var searchText: String = ""
+
+    @ObservedObject private var concertService = UserConcertsService.shared
 
     @ObservedObject private var viewModel: ViewModel
     init(viewModel: ViewModel) {
@@ -22,13 +25,30 @@ struct ArtistsView<ViewModel>: View where ViewModel: ArtistsViewModelProtocol {
         TabView {
             NavigationStack {
                 ZStack {
-                    List {
-                        ForEach(viewModel.artists) { artistSeen in
-                            NavigationLink(
-                                value: ArtistData(id: artistSeen.id.uuidString, name: artistSeen.name)
-                            ) {
-                                Text(artistSeen.name)
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .opacity(self.intitialLoading ? 1 : 0)
+
+                    List(0..<viewModel.artists.count, id: \.self) { index in
+                        let artistSeen = viewModel.artists[index]
+                        NavigationLink(
+                            value: ArtistData(id: artistSeen.id.uuidString, name: artistSeen.name)
+                        ) {
+                            Text(artistSeen.name)
+                        }
+                        .onAppear {
+                            if index == viewModel.artists.count - 1 && viewModel.hasMore {
+                                self.loadingMore = true
+                                Task {
+                                    await self.viewModel.fetchMore()
+                                    self.loadingMore = false
+                                }
                             }
+                        }
+                        if self.intitialLoading {
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                                .opacity(self.loadingMore ? 1 : 0)
                         }
                     }
                     .navigationDestination(for: ArtistData.self) { artist in
@@ -42,10 +62,6 @@ struct ArtistsView<ViewModel>: View where ViewModel: ArtistsViewModelProtocol {
                         )
                     }
                     .searchable(text: self.$viewModel.searchText)
-
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                        .opacity(self.loading ? 1 : 0)
                 }
                 .navigationTitle(Constants.Artists.headerText)
             }
@@ -58,6 +74,9 @@ struct ArtistsView<ViewModel>: View where ViewModel: ArtistsViewModelProtocol {
                 .tabItem {
                     Label("Attended", systemImage: "music.note.list")
                 }
+                .badge(
+                    concertService.newShowAttendedCount > 0 ? "\(concertService.newShowAttendedCount)" : nil
+                )
             Button("sign out") {
                 AuthenticationService().logOut()
             }
@@ -75,7 +94,7 @@ struct ArtistsView_Previews: PreviewProvider {
 }
 
 class MockArtistsViewModel: ArtistsViewModelProtocol {
-
+    var hasMore: Bool = false
     var artists: [ArtistSearch] = [
         .init(id: UUID(), ticketMasterId: 33333, name: "Deftones", sortName: "", disambiguation: "", url: ""),
         .init(id: UUID(), ticketMasterId: 44444, name: "Fleetwood Mac", sortName: "", disambiguation: "", url: ""),
@@ -83,7 +102,8 @@ class MockArtistsViewModel: ArtistsViewModelProtocol {
     ]
 
     var searchText: String = ""
-    func fetch() async {}
+    func fetch(searchQuery: String) async {}
+    func fetchMore() async {}
 }
 
 struct ArtistData: Hashable {

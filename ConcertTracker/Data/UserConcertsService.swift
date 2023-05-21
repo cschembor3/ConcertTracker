@@ -10,9 +10,15 @@ import FirebaseDatabase
 protocol UserConcertsServiceProtocol {
     func getSetlist(concertId: String)
     func getShowsAttended() async -> [UserShowDbModel]
+    var showsAttended: [UserShowDbModel] { get }
 }
 
-final class UserConcertsService: UserConcertsServiceProtocol {
+final class UserConcertsService: UserConcertsServiceProtocol, ObservableObject {
+
+    static let shared = UserConcertsService()
+
+    private(set) var showsAttended: [UserShowDbModel] = []
+    @Published private(set) var newShowAttendedCount: Int = 0
 
     private let reference = Database.database().reference()
 
@@ -20,6 +26,49 @@ final class UserConcertsService: UserConcertsServiceProtocol {
         guard let userId = AuthenticationService().user?.uid else { return nil }
         return reference.ref.child("users/\(userId)/showsAttended")
     }()
+
+    init() {
+        guard let databasePath else { return }
+
+        Task {
+            await withCheckedContinuation { [weak self] continuation in
+
+                databasePath.observeSingleEvent(of: .value, with: { data in
+
+                    guard let json = data.value as? [String: Any] else {
+                        continuation.resume()
+                        return
+                    }
+
+                    do {
+                        let data = try JSONSerialization.data(withJSONObject: json)
+                        let showsDecoded = try JSONDecoder().decode([String: UserShowDbModel].self, from: data)
+                        let shows = showsDecoded.values.map { $0 }
+                        self?.showsAttended = shows
+                        continuation.resume()
+                    } catch {
+                        print(error)
+                        continuation.resume()
+                    }
+                })
+            }
+
+            databasePath.observe(.childAdded) { [weak self] data in
+                guard let self,
+                      let json = data.value as? [String: Any] else { return }
+                do {
+                    let data = try JSONSerialization.data(withJSONObject: json)
+                    let newShowDecoded = try JSONDecoder().decode(UserShowDbModel.self, from: data)
+                    if !self.showsAttended.contains(newShowDecoded) {
+                        self.showsAttended.append(newShowDecoded)
+                        self.newShowAttendedCount += 1
+                    }
+                } catch {
+                    print(error)
+                }
+            }
+        }
+    }
 
     func getShowsAttended() async -> [UserShowDbModel] {
 
@@ -130,7 +179,7 @@ struct ShowDbModel: Codable {
     }
 }
 
-struct UserShowDbModel: Codable {
+struct UserShowDbModel: Codable, Equatable {
     let id: String
     let artistName: String
     let showDate: String

@@ -9,21 +9,25 @@ import SwiftUI
 
 struct UserSetlistView: View {
     var body: some View {
-        List {
 
-            Section("Setlist") {
-                ForEach(1..<5) { _ in
-                    Text("Knife prty")
+        VStack {
+
+            List {
+
+                Section("Setlist") {
+                    ForEach(1..<5) { _ in
+                        Text("Knife prty")
+                    }
                 }
-            }
-            
-            Section("Encore") {
-                Text("Passenger")
-            }
 
-            Section("Create Playlist") {
-                Button("Spotify") {
-                    print("hi")
+                Section("Encore") {
+                    Text("Passenger")
+                }
+
+                Section("Create Playlist") {
+                    Button("Spotify") {
+                        print("hi")
+                    }
                 }
             }
         }

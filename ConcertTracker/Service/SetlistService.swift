@@ -8,24 +8,29 @@
 import Foundation
 
 protocol SetlistServiceInterface {
-    func search(artistName: String) async throws -> ArtistSearchResponse
+    func search(artistName: String, page: Int) async throws -> ArtistSearchResponse
+    func getSetlist(for artistId: String, page: Int) async throws -> ArtistSetlistResponse
 }
 
-class SetlistService: SetlistServiceInterface {
+final class SetlistService: SetlistServiceInterface {
 
     private lazy var dateFormatter: DateFormatter = {
         let _dateFormatter = DateFormatter()
         _dateFormatter.dateFormat = "dd-MM-yyyy"
         return _dateFormatter
     }()
-   
+
     private let setlistApi: SetlistApiInterface
     init(setlistApi: SetlistApiInterface) {
         self.setlistApi = setlistApi
     }
 
-    func search(artistName: String) async throws -> ArtistSearchResponse {
-        try await self.setlistApi.searchArtists(artistName: artistName)
+    func search(artistName: String, page: Int) async throws -> ArtistSearchResponse {
+        try await self.setlistApi.searchArtists(artistName: artistName, page: page)
+    }
+
+    func getSetlist(for artistId: String, page: Int) async throws -> ArtistSetlistResponse {
+        try await self.setlistApi.getArtistSetlists(id: artistId, page: page)
     }
 }
 

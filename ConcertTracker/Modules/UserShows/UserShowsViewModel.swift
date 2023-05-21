@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 protocol UserShowsViewModelProtocol: ObservableObject {
@@ -13,8 +14,8 @@ protocol UserShowsViewModelProtocol: ObservableObject {
     func sort(_ option: UserShowsViewModel.SortOption)
 }
 
-struct ShowSeenEntry: Identifiable {
-    let id: String
+struct ShowSeenEntry: Identifiable, Equatable {
+    let id = UUID()
     let name: String
     let text: String
     let type: EntryType
@@ -31,35 +32,33 @@ final class UserShowsViewModel: UserShowsViewModelProtocol {
 
     private static var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd/yyyy"
+        formatter.dateFormat = "dd/MM/yyyy"
         return formatter
     }()
 
     @Published var entries = [ShowSeenEntry]()
 
-    private let concertService: UserConcertsServiceProtocol
+    private var concertService: any UserConcertsServiceProtocol = UserConcertsService.shared
 
-    init(concertService: UserConcertsServiceProtocol = UserConcertsService()) {
+    init(concertService: any UserConcertsServiceProtocol = UserConcertsService.shared) {
         self.concertService = concertService
 
         Task {
             let showsAttended = await concertService.getShowsAttended()
             let artists = Dictionary(grouping: showsAttended, by: { $0.artistName }) // TODO: group by artist id instead of name
             var artistsSeen = [ArtistSeen]()
-            artists.forEach { (artistName, artist) in
-                let shows = artist.map { ShowSeen(id: $0.id, venueName: "Saint Vitus", city: "Brooklyn", date: $0.showDate) }
-                artistsSeen.append(.init(id: "", name: artistName, shows: shows))
+            artists.forEach { (artistName, artists) in
+                let shows = artists.map { ShowSeen(id: $0.id, venueName: "Saint Vitus", city: "Brooklyn", date: $0.showDate) }
+                artistsSeen.append(.init(id: artistName, name: artistName, shows: shows))
             }
 
             self.entries = artistsSeen.map { artist in
                 .init(
-                    id: artist.id,
                     name: artist.name,
                     text: artist.name,
                     type: .artist,
                     children: artist.shows.map { show in
                         .init(
-                            id: show.id,
                             name: show.venueName,
                             text: "\(show.date) - \(show.venueName)",
                             type: .show,
