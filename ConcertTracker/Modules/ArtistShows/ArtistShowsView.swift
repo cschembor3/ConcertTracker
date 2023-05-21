@@ -23,14 +23,13 @@ struct ArtistShowsView: View {
         ZStack {
 
             // TODO: update to paginate and fetch more results, like in ``ArtistsView``
-            List(0..<viewModel.shows.count, id: \.self) { index in
-                let artistSet = viewModel.shows[index]
-                NavigationLink(value: artistSet) {
-                    Text("\(artistSet.formattedDate) - \(artistSet.venueName ?? "")")
+            List(viewModel.shows, id: \.id) { show in
+                NavigationLink(value: show) {
+                    Text("\(show.formattedDate) - \(show.venueName ?? "")")
                         .font(.monospaced(.body)())
                 }
                 .onAppear {
-                    if index == viewModel.shows.count - 1 && viewModel.hasMore {
+                    if viewModel.needsToFetchMore(show: show) {
                         self.loadingMore = true
                         Task {
                             _ = await self.viewModel.fetchMore()
@@ -39,7 +38,6 @@ struct ArtistShowsView: View {
                     }
                 }
             }
-            .id(UUID())
             .navigationDestination(for: ShowDisplayInfo.self) { setlist in
                 SetlistView(viewModel: .init(response: setlist.setlistResponse))
                     .navigationTitle(setlist.venueName ?? "")

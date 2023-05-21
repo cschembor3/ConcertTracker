@@ -29,18 +29,17 @@ struct ArtistsView<ViewModel>: View where ViewModel: ArtistsViewModelProtocol {
                         .progressViewStyle(.circular)
                         .opacity(self.intitialLoading ? 1 : 0)
 
-                    List(0..<viewModel.artists.count, id: \.self) { index in
-                        let artistSeen = viewModel.artists[index]
+                    List(viewModel.artists, id: \.id) { artist in
                         NavigationLink(
-                            value: ArtistData(id: artistSeen.id.uuidString, name: artistSeen.name)
+                            value: ArtistData(id: artist.id.uuidString, name: artist.name)
                         ) {
-                            Text(artistSeen.name)
+                            Text(artist.name)
                         }
                         .onAppear {
-                            if index == viewModel.artists.count - 1 && viewModel.hasMore {
+                            if viewModel.needsToFetchMore(artist: artist) {
                                 self.loadingMore = true
                                 Task {
-                                    await self.viewModel.fetchMore()
+                                    _ = await self.viewModel.fetchMore()
                                     self.loadingMore = false
                                 }
                             }
@@ -94,7 +93,6 @@ struct ArtistsView_Previews: PreviewProvider {
 }
 
 class MockArtistsViewModel: ArtistsViewModelProtocol {
-    var hasMore: Bool = false
     var artists: [ArtistSearch] = [
         .init(id: UUID(), ticketMasterId: 33333, name: "Deftones", sortName: "", disambiguation: "", url: ""),
         .init(id: UUID(), ticketMasterId: 44444, name: "Fleetwood Mac", sortName: "", disambiguation: "", url: ""),
@@ -104,6 +102,9 @@ class MockArtistsViewModel: ArtistsViewModelProtocol {
     var searchText: String = ""
     func fetch(searchQuery: String) async {}
     func fetchMore() async {}
+    func needsToFetchMore(artist: ArtistSearch) -> Bool {
+        false
+    }
 }
 
 struct ArtistData: Hashable {

@@ -105,7 +105,7 @@ struct ArtistSearchResponse: Codable {
     let itemsPerPage: Int?
 }
 
-struct ArtistSearch: Codable, Identifiable {
+struct ArtistSearch: Codable, Equatable, Identifiable {
     let id: UUID
     let ticketMasterId: Int?
     let name: String

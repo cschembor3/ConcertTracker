@@ -11,8 +11,6 @@ import Foundation
 final class ArtistShowsViewModel: ObservableObject {
 
     @Published private(set) var shows = [ShowDisplayInfo]()
-    @Published private(set) var hasMore: Bool
-
     private var page: Int = 1
 
     private let artist: (id: String, name: String)
@@ -23,7 +21,6 @@ final class ArtistShowsViewModel: ObservableObject {
     ) {
         self.artist = artist
         self.setlistApi = setlistApi
-        self.hasMore = true
     }
 
     func fetch() async -> [ShowDisplayInfo] {
@@ -42,14 +39,17 @@ final class ArtistShowsViewModel: ObservableObject {
         do {
             self.page += 1
             let response = try await self.setlistApi.getArtistSetlists(id: self.artist.id, page: self.page)
-            guard let total = response.total else { return [] }
             self.shows.append(contentsOf: response.setlist.map { ShowDisplayInfo(setlistResponse: $0) })
-            self.hasMore = total > self.shows.count
         } catch {
             print("🚨 Error at \(#function): \(error)")
         }
 
         return self.shows
+    }
+
+    func needsToFetchMore(show: ShowDisplayInfo) -> Bool {
+        guard let indexOfCurrShow = self.shows.firstIndex(of: show) else { return false }
+        return self.shows.count - indexOfCurrShow < 3
     }
 
     var artistName: String {
