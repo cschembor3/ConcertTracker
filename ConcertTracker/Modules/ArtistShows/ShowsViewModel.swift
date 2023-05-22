@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 final class ArtistShowsViewModel: ObservableObject {
 
-    @Published private(set) var shows = [ShowDisplayInfo]()
+    @Published var shows = [ShowDisplayInfo]()
     private var page: Int = 1
 
     private let artist: (id: String, name: String)
@@ -26,7 +26,8 @@ final class ArtistShowsViewModel: ObservableObject {
     func fetch() async -> [ShowDisplayInfo] {
         do {
             let a = try await self.setlistApi.getArtistSetlists(id: self.artist.id, page: 1).setlist
-            self.shows = a.map { ShowDisplayInfo(setlistResponse: $0) }
+            let shows = a.map { ShowDisplayInfo(setlistResponse: $0) }
+            self.shows = shows
         } catch {
             print("🚨 Error at \(#function): \(error)")
             self.shows = []

@@ -9,21 +9,23 @@ import SwiftUI
 
 struct ArtistsView<ViewModel>: View where ViewModel: ArtistsViewModelProtocol {
 
+    @State private var path = NavigationPath()
+
     @State private var intitialLoading: Bool = false
     @State private var loadingMore: Bool = false
     @State private var searchText: String = ""
 
     @ObservedObject private var concertService = UserConcertsService.shared
 
-    @ObservedObject private var viewModel: ViewModel
+    @StateObject private var viewModel: ViewModel
     init(viewModel: ViewModel) {
-        self.viewModel = viewModel
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
 
     var body: some View {
 
         TabView {
-            NavigationStack {
+            NavigationStack(path: $path) {
                 ZStack {
                     ProgressView()
                         .progressViewStyle(.circular)
@@ -63,10 +65,9 @@ struct ArtistsView<ViewModel>: View where ViewModel: ArtistsViewModelProtocol {
                         }
                         .searchable(text: self.$viewModel.searchText)
 
-
                         if self.viewModel.searchText.isEmpty {
                             SearchIconView()
-                                .padding(80)
+                                .padding(.init(top: 0, leading: 80, bottom: 80, trailing: 80))
                                 .layoutPriority(1)
                         }
 
