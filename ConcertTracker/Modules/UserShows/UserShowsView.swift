@@ -31,7 +31,9 @@ struct UserShowsView<ViewModel>: View where ViewModel: UserShowsViewModelProtoco
                     .headerProminence(.increased)
                 }
             }
-            .id(UUID())
+            .onAppear {
+                self.viewModel.resetNewShowCount()
+            }
             .listStyle(.sidebar)
             .navigationTitle("Shows attended")
             .toolbar {
@@ -114,5 +116,6 @@ class MockUserShowsViewModel: UserShowsViewModelProtocol {
         )
     ]
 
+    func resetNewShowCount() { }
     func sort(_ option: UserShowsViewModel.SortOption) { }
 }

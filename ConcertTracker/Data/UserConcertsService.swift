@@ -11,6 +11,7 @@ protocol UserConcertsServiceProtocol {
     func getSetlist(concertId: String)
     func getShowsAttended() async -> [UserShowDbModel]
     var showsAttended: [UserShowDbModel] { get }
+    var newShowAttendedCount: Int { get set }
 }
 
 final class UserConcertsService: UserConcertsServiceProtocol, ObservableObject {
@@ -18,7 +19,7 @@ final class UserConcertsService: UserConcertsServiceProtocol, ObservableObject {
     static let shared = UserConcertsService()
 
     private(set) var showsAttended: [UserShowDbModel] = []
-    @Published private(set) var newShowAttendedCount: Int = 0
+    @Published var newShowAttendedCount: Int = 0
 
     private let reference = Database.database().reference()
 

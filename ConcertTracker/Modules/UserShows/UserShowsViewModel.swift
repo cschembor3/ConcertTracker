@@ -11,6 +11,7 @@ import SwiftUI
 @MainActor
 protocol UserShowsViewModelProtocol: ObservableObject {
     var entries: [ShowSeenEntry] { get }
+    func resetNewShowCount()
     func sort(_ option: UserShowsViewModel.SortOption)
 }
 
@@ -70,6 +71,10 @@ final class UserShowsViewModel: UserShowsViewModelProtocol {
                 )
             }
         }
+    }
+
+    func resetNewShowCount() {
+        self.concertService.newShowAttendedCount = 0
     }
 
     func sort(_ option: SortOption) {
