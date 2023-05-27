@@ -30,16 +30,16 @@ final class ArtistsViewModel: ArtistsViewModelProtocol {
     init() {
         $searchText
             .debounce(for: .milliseconds(200), scheduler: RunLoop.main)
+            .removeDuplicates()
             .sink { query in
                 self.searchQuery = query
-                Task {
-                    await self.fetch(searchQuery: query)
-                }
+                self.fetch(searchQuery: query)
             }
             .store(in: &self.cancellables)
     }
 
-    func fetch(searchQuery: String) async {
+    @MainActor
+    func fetch(searchQuery: String) {
 
         guard !searchQuery.isEmpty else {
             self.artists = []
@@ -47,15 +47,17 @@ final class ArtistsViewModel: ArtistsViewModelProtocol {
             return
         }
 
-        do {
-            let response = try await SetlistService(setlistApi: self.setlistApi)
-                .search(artistName: searchQuery, page: page)
+        Task {
+            do {
+                let response = try await SetlistService(setlistApi: self.setlistApi)
+                    .search(artistName: searchQuery, page: page)
 
-            guard let artists = response.artist else { return }
-            self.artists = artists
-            self.page = 1
-        } catch {
-            print(error)
+                guard let artists = response.artist else { return }
+                    self.artists = artists
+                self.page = 1
+            } catch {
+                print(error)
+            }
         }
     }
 

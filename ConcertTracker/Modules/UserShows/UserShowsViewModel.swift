@@ -50,7 +50,7 @@ final class UserShowsViewModel: UserShowsViewModelProtocol {
     }
 
     private func populateInitialShowsAttended() async {
-        let showsAttended = try! concertService.getShowsAttended()
+        guard let showsAttended = try? concertService.getShowsAttended() else { return }
         self.artistsDict = await Dictionary(grouping: showsAttended, by: { $0.artistName })
 
         var artistsSeen = [ArtistSeen]()
