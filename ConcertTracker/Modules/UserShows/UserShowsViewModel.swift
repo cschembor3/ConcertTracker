@@ -5,7 +5,10 @@
 //  Created by Connor Schembor on 2/20/23.
 //
 
+import AsyncAlgorithms
+import Combine
 import Foundation
+import FirebaseDatabase
 import SwiftUI
 
 @MainActor
@@ -15,61 +18,26 @@ protocol UserShowsViewModelProtocol: ObservableObject {
     func sort(_ option: UserShowsViewModel.SortOption)
 }
 
-struct ShowSeenEntry: Identifiable, Equatable {
-    let id = UUID()
-    let name: String
-    let text: String
-    let type: EntryType
-    let children: [ShowSeenEntry]?
-    let date: Date?
-
-    enum EntryType {
-        case artist
-        case show
-    }
-}
-
 final class UserShowsViewModel: UserShowsViewModelProtocol {
 
     private static var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
+        formatter.dateFormat = "MM/dd/yyyy"
         return formatter
     }()
 
+
     @Published var entries = [ShowSeenEntry]()
 
+    private var artistsDict: [String: [UserShowDbModel]]?
+    private var cancellables = [AnyCancellable]()
     private var concertService: any UserConcertsServiceProtocol = UserConcertsService.shared
 
     init(concertService: any UserConcertsServiceProtocol = UserConcertsService.shared) {
         self.concertService = concertService
-
         Task {
-            let showsAttended = await concertService.getShowsAttended()
-            let artists = Dictionary(grouping: showsAttended, by: { $0.artistName }) // TODO: group by artist id instead of name
-            var artistsSeen = [ArtistSeen]()
-            artists.forEach { (artistName, artists) in
-                let shows = artists.map { ShowSeen(id: $0.id, venueName: "Saint Vitus", city: "Brooklyn", date: $0.showDate) }
-                artistsSeen.append(.init(id: artistName, name: artistName, shows: shows))
-            }
-
-            self.entries = artistsSeen.map { artist in
-                .init(
-                    name: artist.name,
-                    text: artist.name,
-                    type: .artist,
-                    children: artist.shows.map { show in
-                        .init(
-                            name: show.venueName,
-                            text: "\(show.date) - \(show.venueName)",
-                            type: .show,
-                            children: nil,
-                            date: Self.dateFormatter.date(from: show.date)
-                        )
-                    },
-                    date: nil
-                )
-            }
+            await self.populateInitialShowsAttended()
+            self.listenForNewShowsAdded()
         }
     }
 
@@ -79,6 +47,72 @@ final class UserShowsViewModel: UserShowsViewModelProtocol {
 
     func sort(_ option: SortOption) {
         self.entries = self.getSortedEntries(sortOption: option)
+    }
+
+    private func populateInitialShowsAttended() async {
+        let showsAttended = try! concertService.getShowsAttended()
+        self.artistsDict = await Dictionary(grouping: showsAttended, by: { $0.artistName })
+
+        var artistsSeen = [ArtistSeen]()
+        artistsDict?.forEach { (artistName, artists) in
+            let shows = artists.map { ShowSeen(id: $0.id, venueName: "Saint Vitus", city: "Brooklyn", date: $0.showDate) }
+            artistsSeen.append(.init(id: artistName, name: artistName, shows: shows))
+        }
+
+        self.entries = artistsSeen.map { artist in
+            .init(
+                name: artist.name,
+                text: artist.name,
+                type: .artist,
+                children: artist.shows.map { show in
+                    .init(
+                        name: show.venueName,
+                        text: "\(show.date) - \(show.venueName)",
+                        type: .show,
+                        children: nil,
+                        date: Self.dateFormatter.date(from: show.date)
+                    )
+                },
+                date: nil
+            )
+        }
+    }
+
+    private func listenForNewShowsAdded() {
+        concertService.beginListeningForNewShowsAdded()
+        concertService.newShowsAttended
+            .sink { newShow in
+                if var artistEntry = self.entries.first(where: { newShow.artistName == $0.name }) {
+                    let newShowEntry = ShowSeenEntry(
+                        name: "Saint Vitus",
+                        text: newShow.showDate,
+                        type: .show,
+                        children: nil,
+                        date: Self.dateFormatter.date(from: newShow.showDate)
+                    )
+
+                    artistEntry.children?.append(newShowEntry)
+                } else {
+                    self.entries.append(
+                        .init(
+                            name: newShow.artistName,
+                            text: newShow.artistName,
+                            type: .artist,
+                            children: [
+                                .init(
+                                    name: "Saint Vitus",
+                                    text: newShow.showDate,
+                                    type: .show,
+                                    children: nil,
+                                    date: Self.dateFormatter.date(from: newShow.showDate)
+                                )
+                            ],
+                            date: nil
+                        )
+                    )
+                }
+            }
+            .store(in: &cancellables)
     }
 
     private func getSortedEntries(sortOption: SortOption) -> [ShowSeenEntry] {
@@ -141,4 +175,18 @@ struct ShowSeen: Hashable, Identifiable {
     let venueName: String
     let city: String
     let date: String
+}
+
+struct ShowSeenEntry: Identifiable, Equatable {
+    let id = UUID()
+    let name: String
+    let text: String
+    let type: EntryType
+    var children: [ShowSeenEntry]?
+    let date: Date?
+
+    enum EntryType {
+        case artist
+        case show
+    }
 }

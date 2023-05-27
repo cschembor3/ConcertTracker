@@ -20,6 +20,7 @@
 		D25366A62974C5C100C7ED6E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D25366A52974C5C000C7ED6E /* GoogleService-Info.plist */; };
 		D25366A72974C5C100C7ED6E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D25366A52974C5C000C7ED6E /* GoogleService-Info.plist */; };
 		D25366A82974C5C100C7ED6E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D25366A52974C5C000C7ED6E /* GoogleService-Info.plist */; };
+		D262451C2A1D6012007E46AE /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = D262451B2A1D6012007E46AE /* AsyncAlgorithms */; };
 		D2796A092842742E007016CE /* ConcertTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2796A082842742E007016CE /* ConcertTrackerApp.swift */; };
 		D2796A0B2842742E007016CE /* InitUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2796A0A2842742E007016CE /* InitUsernameView.swift */; };
 		D2796A0D28427431007016CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2796A0C28427431007016CE /* Assets.xcassets */; };
@@ -102,6 +103,7 @@
 			files = (
 				D2B325822999C3AB002DBCCB /* FirebaseDatabase in Frameworks */,
 				D25366A22969F40200C7ED6E /* FirebaseAuth in Frameworks */,
+				D262451C2A1D6012007E46AE /* AsyncAlgorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,6 +302,7 @@
 			packageProductDependencies = (
 				D25366A12969F40200C7ED6E /* FirebaseAuth */,
 				D2B325812999C3AB002DBCCB /* FirebaseDatabase */,
+				D262451B2A1D6012007E46AE /* AsyncAlgorithms */,
 			);
 			productName = ConcertTracker;
 			productReference = D2796A052842742E007016CE /* ConcertTracker.app */;
@@ -375,6 +378,7 @@
 			mainGroup = D27969FC2842742E007016CE;
 			packageReferences = (
 				D25366A02969F40200C7ED6E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				D262451A2A1D6012007E46AE /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 			);
 			productRefGroup = D2796A062842742E007016CE /* Products */;
 			projectDirPath = "";
@@ -790,6 +794,14 @@
 				minimumVersion = 10.3.0;
 			};
 		};
+		D262451A2A1D6012007E46AE /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-async-algorithms";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -797,6 +809,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D25366A02969F40200C7ED6E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		D262451B2A1D6012007E46AE /* AsyncAlgorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D262451A2A1D6012007E46AE /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
+			productName = AsyncAlgorithms;
 		};
 		D2B325812999C3AB002DBCCB /* FirebaseDatabase */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -5,11 +5,14 @@
 //  Created by Connor Schembor on 2/12/23.
 //
 
+import Combine
 import FirebaseDatabase
 
 protocol UserConcertsServiceProtocol {
     func getSetlist(concertId: String)
-    func getShowsAttended() async -> [UserShowDbModel]
+    func getShowsAttended() throws -> AsyncStream<UserShowDbModel>
+    func beginListeningForNewShowsAdded()
+    var newShowsAttended: PassthroughSubject<UserShowDbModel, Never> { get }
     var showsAttended: [UserShowDbModel] { get }
     var newShowAttendedCount: Int { get set }
 }
@@ -19,6 +22,7 @@ final class UserConcertsService: UserConcertsServiceProtocol, ObservableObject {
     static let shared = UserConcertsService()
 
     private(set) var showsAttended: [UserShowDbModel] = []
+    private(set) var newShowsAttended: PassthroughSubject<UserShowDbModel, Never> = .init()
     @Published var newShowAttendedCount: Int = 0
 
     private let reference = Database.database().reference()
@@ -28,78 +32,70 @@ final class UserConcertsService: UserConcertsServiceProtocol, ObservableObject {
         return reference.ref.child("users/\(userId)/showsAttended")
     }()
 
-    init() {
-        guard let databasePath else { return }
+    private var handle: DatabaseHandle!
 
-        Task {
-            await withCheckedContinuation { [weak self] continuation in
+    // make init an async func
+    // only observe single event here, to get initial values
+    // create separate func to begin listening for new items
+    // have the other observe code here
 
-                databasePath.observeSingleEvent(of: .value, with: { data in
+    func getShowsAttended() throws -> AsyncStream<UserShowDbModel> {
 
-                    guard let json = data.value as? [String: Any] else {
-                        continuation.resume()
-                        return
-                    }
+        // TODO: use database path error
+        guard let databasePath else { throw CocoaError(.coderReadCorrupt) }
 
-                    do {
-                        let data = try JSONSerialization.data(withJSONObject: json)
-                        let showsDecoded = try JSONDecoder().decode([String: UserShowDbModel].self, from: data)
-                        let shows = showsDecoded.values.map { $0 }
-                        self?.showsAttended = shows
-                        continuation.resume()
-                    } catch {
-                        print(error)
-                        continuation.resume()
-                    }
-                })
-            }
+        return AsyncStream { continuation in
 
-            databasePath.observe(.childAdded) { [weak self] data in
-                guard let self,
-                      let json = data.value as? [String: Any] else { return }
-                do {
-                    let data = try JSONSerialization.data(withJSONObject: json)
-                    let newShowDecoded = try JSONDecoder().decode(UserShowDbModel.self, from: data)
-                    if !self.showsAttended.contains(newShowDecoded) {
-                        self.showsAttended.append(newShowDecoded)
-                        self.newShowAttendedCount += 1
-                    }
-                } catch {
-                    print(error)
+            Task {
+                await withCheckedContinuation { innerContinuation in
+                    databasePath.observeSingleEvent(of: .value, with: { data in
+
+                        guard let json = data.value as? [String: Any] else {
+                            innerContinuation.resume()
+                            return
+                        }
+
+                        do {
+                            defer { continuation.finish() }
+                            let data = try JSONSerialization.data(withJSONObject: json)
+                            let showsDecoded = try JSONDecoder().decode([String: UserShowDbModel].self, from: data)
+                            let shows = showsDecoded.values.map { $0 }
+                            shows.forEach {
+                                self.showsAttended.append($0)
+                                continuation.yield($0)
+                            }
+                            innerContinuation.resume()
+                        } catch {
+                            print(error)
+                            innerContinuation.resume()
+                        }
+                    })
                 }
             }
         }
     }
 
-    func getShowsAttended() async -> [UserShowDbModel] {
-
-        let showsAttended: [UserShowDbModel] = await withCheckedContinuation { continuation in
-
-            guard let databasePath else {
-                continuation.resume(returning: [])
-                return
+    func beginListeningForNewShowsAdded() {
+        guard let databasePath else { return }
+        self.handle = databasePath.observe(.childAdded) { [weak self] data in
+            guard let self,
+                  let json = data.value as? [String: Any] else { return }
+            do {
+                let data = try JSONSerialization.data(withJSONObject: json)
+                let newShowDecoded = try JSONDecoder().decode(UserShowDbModel.self, from: data)
+                if !self.showsAttended.contains(newShowDecoded) {
+                    self.showsAttended.append(newShowDecoded)
+                    self.newShowsAttended.send(newShowDecoded)
+                    self.newShowAttendedCount += 1
+                }
+            } catch {
+                print(error)
             }
-
-            databasePath.observeSingleEvent(of: .value, with: { data in
-
-                guard let json = data.value as? [String: Any] else {
-                    continuation.resume(returning: [])
-                    return
-                }
-
-                do {
-                    let data = try JSONSerialization.data(withJSONObject: json)
-                    let showsDecoded = try JSONDecoder().decode([String: UserShowDbModel].self, from: data)
-                    let shows = showsDecoded.values.map { $0 }
-                    continuation.resume(returning: shows)
-                } catch {
-                    print(error)
-                    continuation.resume(returning: [])
-                }
-            })
         }
+    }
 
-        return showsAttended
+    deinit {
+        self.databasePath?.removeObserver(withHandle: handle)
     }
 
     func getSetlist(concertId: String) {

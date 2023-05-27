@@ -15,11 +15,11 @@ struct SplashScreen: View {
     var body: some View {
 
         Group {
-//            if authService.user != nil {
+            if authService.user != nil {
                 ArtistsView(viewModel: ArtistsViewModel())
-//            } else {
-//                InitUsernameView()
-//            }
+            } else {
+                InitUsernameView()
+            }
         }
     }
 }

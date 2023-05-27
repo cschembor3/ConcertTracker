@@ -10,10 +10,10 @@ import SwiftUI
 struct UserShowsView<ViewModel>: View where ViewModel: UserShowsViewModelProtocol {
 
     @State private var chosenArtist: ShowSeenEntry?
-    @ObservedObject private var viewModel: ViewModel
+    @StateObject private var viewModel: ViewModel
 
     init(viewModel: ViewModel) {
-        self.viewModel = viewModel
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
 
     var body: some View {
@@ -55,7 +55,6 @@ struct UserShowsView<ViewModel>: View where ViewModel: UserShowsViewModelProtoco
                             self.viewModel.sort(.amountSeen)
                         }
                     } label: {
-
                         Image(systemName: "slider.vertical.3")
                     }
                 }
