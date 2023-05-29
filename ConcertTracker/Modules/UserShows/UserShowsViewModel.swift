@@ -55,7 +55,7 @@ final class UserShowsViewModel: UserShowsViewModelProtocol {
 
         var artistsSeen = [ArtistSeen]()
         artistsDict?.forEach { (artistName, artists) in
-            let shows = artists.map { ShowSeen(id: $0.id, venueName: "Saint Vitus", city: "Brooklyn", date: $0.showDate) }
+            let shows = artists.map { ShowSeen(id: $0.id, venueName: $0.venueName ?? "Saint Vitus", city: "Brooklyn", date: $0.showDate) }
             artistsSeen.append(.init(id: artistName, name: artistName, shows: shows))
         }
 

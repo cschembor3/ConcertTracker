@@ -180,12 +180,25 @@ struct UserShowDbModel: Codable, Equatable {
     let id: String
     let artistName: String
     let showDate: String
+    let venueName: String?
 }
 
 extension SetlistResponse {
 
     func toUserShowDbModel() -> UserShowDbModel {
-        UserShowDbModel(id: self.id, artistName: self.artist.name, showDate: self.eventDate)
+        let fromServerDateFormatter = DateFormatter()
+        fromServerDateFormatter.dateFormat = "dd-MM-yyyy"
+
+        let formattedDate: String
+        if let date = fromServerDateFormatter.date(from: self.eventDate) {
+            let newDateFormatter = DateFormatter()
+            newDateFormatter.dateFormat = "MM/dd/yyyy"
+            formattedDate = newDateFormatter.string(from: date)
+        } else {
+            formattedDate = self.eventDate
+        }
+
+        return UserShowDbModel(id: self.id, artistName: self.artist.name, showDate: formattedDate, venueName: self.venue.name)
     }
 
     func toDbModel() -> ShowDbModel {
