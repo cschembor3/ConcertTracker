@@ -57,26 +57,6 @@ struct UserShowsView<ViewModel>: View where ViewModel: UserShowsViewModelProtoco
         }
     }
 
-//    struct ShowsAttendedListView: View {
-//
-//        private let showsSeenEntries: [ShowSeenEntry]
-//        private let onDelete: Optional<(IndexSet) -> Void>
-//        init(showsSeenEntries: [ShowSeenEntry], onDelete: Optional<(IndexSet) -> Void>) {
-//            self.showsSeenEntries = showsSeenEntries
-//            self.onDelete = onDelete
-//        }
-//
-//        var body: some View {
-//            ForEach(self.showsSeenEntries, id: \.id) { entry in
-//                Section(entry.text) {
-//                    ShowsAttendedByArtistView(showsSeenEntry: entry)
-//                }
-//                .headerProminence(.increased)
-//            }
-//            .onDelete(perform: self.onDelete)
-//        }
-//    }
-
     struct ShowsAttendedByArtistView: View {
 
         private let showsSeenEntry: ShowSeenEntry
@@ -88,32 +68,25 @@ struct UserShowsView<ViewModel>: View where ViewModel: UserShowsViewModelProtoco
 
         var body: some View {
             Section(showsSeenEntry.text) {
-                DisclosureGroup(showsSeenEntry.text) {
-                    ForEach(showsSeenEntry.children ?? []) { show in
-                        NavigationLink(show.text) {
-                            UserSetlistView()
+                DisclosureGroup(
+                    content: {
+                        ForEach(showsSeenEntry.children ?? []) { show in
+                            NavigationLink(show.text) {
+                                UserSetlistView()
+                            }
                         }
+                        .onDelete { indexSet in
+                            self.onDelete(
+                                showsSeenEntry.id.uuidString,
+                                showsSeenEntry.children![indexSet.first!].setlistFmShowId
+                            )
+                        }
+                    },
+                    label: {
+                        Text(showsSeenEntry.text)
+                            .badge(showsSeenEntry.children?.count ?? 0)
                     }
-                    .onDelete { indexSet in
-                        self.onDelete(showsSeenEntry.id.uuidString, showsSeenEntry.children![indexSet.first!].setlistFmShowId)
-                    }
-                }
-            }
-        }
-    }
-
-    struct TestView: View {
-
-        let entry: ShowSeenEntry
-        let index: Int
-
-        var body: some View {
-            Section(entry.text) {
-                OutlineGroup(entry.children ?? [], id: \.id, children: \.children) { a in
-                    NavigationLink(a.text) {
-                        UserSetlistView()
-                    }
-                }
+                )
             }
         }
     }
