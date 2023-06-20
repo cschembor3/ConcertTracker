@@ -21,14 +21,9 @@ struct UserShowsView<ViewModel>: View where ViewModel: UserShowsViewModelProtoco
         NavigationStack {
             List {
                 ForEach(self.viewModel.entries, id: \.id) { entry in
-                    Section(entry.text) {
-                        OutlineGroup(entry.children ?? [], id: \.id, children: \.children) { a in
-                            NavigationLink(a.text) {
-                                UserSetlistView()
-                            }
-                        }
+                    ShowsAttendedByArtistView(showsSeenEntry: entry) { entryId, showIdToDelete in
+                        self.viewModel.remove(entryId: entryId, showId: showIdToDelete)
                     }
-                    .headerProminence(.increased)
                 }
             }
             .onAppear {
@@ -61,6 +56,67 @@ struct UserShowsView<ViewModel>: View where ViewModel: UserShowsViewModelProtoco
             }
         }
     }
+
+//    struct ShowsAttendedListView: View {
+//
+//        private let showsSeenEntries: [ShowSeenEntry]
+//        private let onDelete: Optional<(IndexSet) -> Void>
+//        init(showsSeenEntries: [ShowSeenEntry], onDelete: Optional<(IndexSet) -> Void>) {
+//            self.showsSeenEntries = showsSeenEntries
+//            self.onDelete = onDelete
+//        }
+//
+//        var body: some View {
+//            ForEach(self.showsSeenEntries, id: \.id) { entry in
+//                Section(entry.text) {
+//                    ShowsAttendedByArtistView(showsSeenEntry: entry)
+//                }
+//                .headerProminence(.increased)
+//            }
+//            .onDelete(perform: self.onDelete)
+//        }
+//    }
+
+    struct ShowsAttendedByArtistView: View {
+
+        private let showsSeenEntry: ShowSeenEntry
+        private let onDelete: (String, String) -> Void
+        init(showsSeenEntry: ShowSeenEntry, onDelete: @escaping (String, String) -> Void) {
+            self.showsSeenEntry = showsSeenEntry
+            self.onDelete = onDelete
+        }
+
+        var body: some View {
+            Section(showsSeenEntry.text) {
+                DisclosureGroup(showsSeenEntry.text) {
+                    ForEach(showsSeenEntry.children ?? []) { show in
+                        NavigationLink(show.text) {
+                            UserSetlistView()
+                        }
+                    }
+                    .onDelete { indexSet in
+                        self.onDelete(showsSeenEntry.id.uuidString, showsSeenEntry.children![indexSet.first!].setlistFmShowId)
+                    }
+                }
+            }
+        }
+    }
+
+    struct TestView: View {
+
+        let entry: ShowSeenEntry
+        let index: Int
+
+        var body: some View {
+            Section(entry.text) {
+                OutlineGroup(entry.children ?? [], id: \.id, children: \.children) { a in
+                    NavigationLink(a.text) {
+                        UserSetlistView()
+                    }
+                }
+            }
+        }
+    }
 }
 
 struct UserShowsView_Previews: PreviewProvider {
@@ -70,15 +126,19 @@ struct UserShowsView_Previews: PreviewProvider {
 }
 
 class MockUserShowsViewModel: UserShowsViewModelProtocol {
+    func remove(entryId: String, showId: String) { }
+    func remove(showId: String) { }
     var entries: [ShowSeenEntry] = [
         .init(
 //            id: UUID(),
+            setlistFmShowId: "",
             name: "Deftones",
             text: "Deftones",
             type: .artist,
             children: [
                 .init(
 //                    id: UUID(),
+                    setlistFmShowId: "",
                     name: "Saint Vitus",
                     text: "12/04/1998 - Saint Vitus",
                     type: .show,
@@ -87,6 +147,7 @@ class MockUserShowsViewModel: UserShowsViewModelProtocol {
                 ),
                 .init(
 //                    id: UUID(),
+                    setlistFmShowId: "",
                     name: "Saint Vitus",
                     text: "12/04/1998 - Saint Vitus",
                     type: .show,
@@ -98,12 +159,14 @@ class MockUserShowsViewModel: UserShowsViewModelProtocol {
         ),
         .init(
 //            id: UUID(),
+            setlistFmShowId: "",
             name: "Deerhoof",
             text: "Deerhoof",
             type: .artist,
             children: [
                 .init(
 //                    id: UUID(),
+                    setlistFmShowId: "",
                     name: "Brooklyn Monarch",
                     text: "Brooklyn Monarch",
                     type: .show,

@@ -15,6 +15,7 @@ import SwiftUI
 protocol UserShowsViewModelProtocol: ObservableObject {
     var entries: [ShowSeenEntry] { get }
     func resetNewShowCount()
+    func remove(entryId: String, showId: String)
     func sort(_ option: UserShowsViewModel.SortOption)
 }
 
@@ -49,6 +50,18 @@ final class UserShowsViewModel: UserShowsViewModelProtocol {
         self.entries = self.getSortedEntries(sortOption: option)
     }
 
+    func remove(entryId: String, showId: String) {
+        guard var (index, entry) = self.entries.enumerated().first(where: { $0.element.id.uuidString == entryId }),
+              let show = entry.children?.firstIndex(where: { $0.setlistFmShowId == showId }) else {
+            return
+        }
+
+        entry.children?.remove(at: show)
+        entries[index] = entry
+
+        self.concertService.removeShowAsAttended(id: showId)
+    }
+
     private func populateInitialShowsAttended() async {
         guard let showsAttended = try? concertService.getShowsAttended() else { return }
         self.artistsDict = await Dictionary(grouping: showsAttended, by: { $0.artistName })
@@ -61,11 +74,13 @@ final class UserShowsViewModel: UserShowsViewModelProtocol {
 
         self.entries = artistsSeen.map { artist in
             .init(
+                setlistFmShowId: "",
                 name: artist.name,
                 text: artist.name,
                 type: .artist,
                 children: artist.shows.map { show in
                     .init(
+                        setlistFmShowId: show.id,
                         name: show.venueName,
                         text: "\(show.date) - \(show.venueName)",
                         type: .show,
@@ -84,6 +99,7 @@ final class UserShowsViewModel: UserShowsViewModelProtocol {
             .sink { newShow in
                 if var artistEntry = self.entries.first(where: { newShow.artistName == $0.name }) {
                     let newShowEntry = ShowSeenEntry(
+                        setlistFmShowId: newShow.id,
                         name: "Saint Vitus",
                         text: newShow.showDate,
                         type: .show,
@@ -95,11 +111,13 @@ final class UserShowsViewModel: UserShowsViewModelProtocol {
                 } else {
                     self.entries.append(
                         .init(
+                            setlistFmShowId: "",
                             name: newShow.artistName,
                             text: newShow.artistName,
                             type: .artist,
                             children: [
                                 .init(
+                                    setlistFmShowId: newShow.id,
                                     name: "Saint Vitus",
                                     text: newShow.showDate,
                                     type: .show,
@@ -179,6 +197,7 @@ struct ShowSeen: Hashable, Identifiable {
 
 struct ShowSeenEntry: Identifiable, Equatable {
     let id = UUID()
+    let setlistFmShowId: String
     let name: String
     let text: String
     let type: EntryType

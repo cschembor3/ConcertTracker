@@ -12,6 +12,7 @@ protocol UserConcertsServiceProtocol {
     func getSetlist(concertId: String)
     func getShowsAttended() throws -> AsyncStream<UserShowDbModel>
     func beginListeningForNewShowsAdded()
+    func removeShowAsAttended(id: String)
     var newShowsAttended: PassthroughSubject<UserShowDbModel, Never> { get }
     var showsAttended: [UserShowDbModel] { get }
     var newShowAttendedCount: Int { get set }
@@ -120,7 +121,6 @@ final class UserConcertsService: UserConcertsServiceProtocol, ObservableObject {
 
         }
 
-
         self.reference
             .ref
             .child("artists")
@@ -143,6 +143,13 @@ final class UserConcertsService: UserConcertsServiceProtocol, ObservableObject {
             .child("artistId")
             .setValue(showDbModel.artistId)
 
+        self.reference
+            .ref
+            .child("shows")
+            .child(showDbModel.id)
+            .child("attendedUsers")
+            .updateChildValues([user.uid: true])
+
         do {
             let songsData = try JSONEncoder().encode(showDbModel.songs)
             let songs = try JSONSerialization.jsonObject(with: songsData)
@@ -155,6 +162,32 @@ final class UserConcertsService: UserConcertsServiceProtocol, ObservableObject {
         } catch {
             fatalError("Error serializing song data - \(#function)")
         }
+    }
+
+    func removeShowAsAttended(id: String) {
+        let user = AuthenticationService().user!
+        self.reference
+            .ref
+            .child("users")
+            .child(user.uid)
+            .child("showsAttended")
+            .child(id)
+            .removeValue()
+
+        self.reference
+            .ref
+            .child("shows")
+            .child(id)
+            .child("attendedUsers")
+            .observeSingleEvent(of: .value) { snapshot in
+                if snapshot.exists() && snapshot.childrenCount == 0 {
+                    
+                }
+            }
+
+        // remove userid from show
+        // if show has no users attached, delete its id from artist
+        // if artist has no shows attached, delete it
     }
 }
 
