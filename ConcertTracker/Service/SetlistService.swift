@@ -10,6 +10,7 @@ import Foundation
 protocol SetlistServiceInterface {
     func search(artistName: String, page: Int) async throws -> ArtistSearchResponse
     func getSetlist(for artistId: String, page: Int) async throws -> ArtistSetlistResponse
+    func getSetlist(for showId: String) async throws -> SetlistResponse
 }
 
 final class SetlistService: SetlistServiceInterface {
@@ -21,7 +22,7 @@ final class SetlistService: SetlistServiceInterface {
     }()
 
     private let setlistApi: SetlistApiInterface
-    init(setlistApi: SetlistApiInterface) {
+    init(setlistApi: SetlistApiInterface = SetlistApi()) {
         self.setlistApi = setlistApi
     }
 
@@ -31,6 +32,10 @@ final class SetlistService: SetlistServiceInterface {
 
     func getSetlist(for artistId: String, page: Int) async throws -> ArtistSetlistResponse {
         try await self.setlistApi.getArtistSetlists(id: artistId, page: page)
+    }
+
+    func getSetlist(for showId: String) async throws -> SetlistResponse {
+        try await self.setlistApi.getSetlist(id: showId)
     }
 }
 

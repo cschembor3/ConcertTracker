@@ -72,7 +72,7 @@ struct UserShowsView<ViewModel>: View where ViewModel: UserShowsViewModelProtoco
                     content: {
                         ForEach(showsSeenEntry.children ?? []) { show in
                             NavigationLink(show.text) {
-                                UserSetlistView()
+                                UserSetlistView(viewModel: .init(showId: show.setlistFmShowId))
                             }
                         }
                         .onDelete { indexSet in

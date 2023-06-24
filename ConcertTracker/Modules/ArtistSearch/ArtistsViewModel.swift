@@ -25,7 +25,7 @@ final class ArtistsViewModel: ArtistsViewModelProtocol {
 
     private var page: Int = 1
     private var searchQuery: String = ""
-    private var cancellables: Set<AnyCancellable> = []
+    private var cancellables = Set<AnyCancellable>()
 
     init() {
         $searchText

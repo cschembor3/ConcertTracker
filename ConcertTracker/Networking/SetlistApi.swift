@@ -9,6 +9,7 @@ import Foundation
 
 protocol SetlistApiInterface {
     func getArtistSetlists(id: String, page: Int) async throws -> ArtistSetlistResponse
+    func getSetlist(id: String) async throws -> SetlistResponse
     func getConcertsAttended(for username: String) async throws -> ArtistSetlistResponse
     func searchArtists(artistName: String, page: Int) async throws -> ArtistSearchResponse
 }
@@ -176,10 +177,11 @@ struct Tour: Codable, Hashable {
 }
 
 struct Sets: Codable, Hashable {
-    let set: [Songs]
+    let set: [SetInfo]
 }
 
-struct Songs: Codable, Hashable {
+struct SetInfo: Codable, Hashable {
+    let encore: Int?
     let song: [Song]?
 }
 

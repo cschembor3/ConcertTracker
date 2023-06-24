@@ -8,6 +8,12 @@
 import SwiftUI
 
 struct UserSetlistView: View {
+
+    @ObservedObject private var viewModel: UserSetlistViewModel
+    init(viewModel: UserSetlistViewModel) {
+        self.viewModel = viewModel
+    }
+
     var body: some View {
 
         VStack {
@@ -15,13 +21,21 @@ struct UserSetlistView: View {
             List {
 
                 Section("Setlist") {
-                    ForEach(1..<5) { _ in
-                        Text("Knife prty")
+                    ForEach(viewModel.setlist?.setlist.setSongs ?? [], id: \.self) { song in
+                        Text(song)
                     }
                 }
 
-                Section("Encore") {
-                    Text("Passenger")
+                if let encores = viewModel.setlist?.setlist.encores,
+                   !encores.isEmpty {
+
+                    ForEach(encores) { encore in
+                        Section("Encore \(encore.number)") {
+                            ForEach(encore.songs, id: \.self) { song in
+                                Text(song)
+                            }
+                        }
+                    }
                 }
 
                 Section("Create Playlist") {
@@ -43,6 +57,6 @@ struct UserSetlistView: View {
 
 struct UserSetlistView_Previews: PreviewProvider {
     static var previews: some View {
-        UserSetlistView()
+        UserSetlistView(viewModel: UserSetlistViewModel(showId: "bb8a5f2"))
     }
 }
