@@ -147,7 +147,7 @@ final class UserShowsViewModel: UserShowsViewModelProtocol {
             }.reversed()
         case .alphabetically:
             return entries.sorted { artist1, artist2 in
-                artist1.name < artist2.name
+                artist1.name.lowercased() < artist2.name.lowercased()
             }
         case .amountSeen:
             return entries.sorted { artist1, artist2 in

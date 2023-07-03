@@ -72,6 +72,9 @@ struct ArtistsView<ViewModel>: View where ViewModel: ArtistsViewModelProtocol {
                         }
 
                         Spacer()
+                        Spacer()
+                        Spacer()
+                        Spacer()
                     }
                 }
                 .navigationTitle(Constants.Artists.headerText)
@@ -105,14 +108,14 @@ struct SearchIconView: View {
         VStack {
             Text("Search for an artist/band")
                 .font(.headline)
-                .foregroundColor(.gray)
+                .foregroundStyle(.secondary)
                 .padding(.bottom)
 
             Image(systemName: "music.mic.circle")
                 .resizable()
                 .scaledToFit()
                 .padding(.bottom)
-                .foregroundColor(.gray)
+                .foregroundStyle(.secondary)
         }
     }
 }

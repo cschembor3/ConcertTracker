@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 final class UserSetlistViewModel: ObservableObject {
 
-    @Published private(set) var setlist: UserSetlistDisplayInfo?
+    @Published private(set) var setlistInfo: UserSetlistDisplayInfo?
 
     private let setlistService: SetlistServiceInterface
     init(showId: String, setlistService: SetlistServiceInterface = SetlistService()) {
@@ -25,7 +25,7 @@ final class UserSetlistViewModel: ObservableObject {
             return
         }
 
-        self.setlist = .init(from: setlistResponse)
+        self.setlistInfo = .init(from: setlistResponse)
     }
 
     struct UserSetlistDisplayInfo: Identifiable {
