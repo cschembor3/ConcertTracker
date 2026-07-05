@@ -9,8 +9,6 @@ import SwiftUI
 
 struct ArtistsView<ViewModel>: View where ViewModel: ArtistsViewModelProtocol {
 
-    @State private var path = NavigationPath()
-
     @State private var loadingMore: Bool = false
 
     private let concertService = UserConcertsService.shared
@@ -24,7 +22,7 @@ struct ArtistsView<ViewModel>: View where ViewModel: ArtistsViewModelProtocol {
         @Bindable var viewModel = viewModel
 
         TabView {
-            NavigationStack(path: $path) {
+            NavigationStack {
                 ZStack {
                     ProgressView()
                         .progressViewStyle(.circular)

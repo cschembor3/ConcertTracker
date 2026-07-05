@@ -20,7 +20,6 @@ struct UserShowsView<ViewModel>: View where ViewModel: UserShowsViewModelProtoco
 
     @State private var chosenArtist: ShowSeenEntry?
     @State private var groupingMode: GroupingMode = .alphabetical
-    @State private var path = NavigationPath()
     @State private var viewModel: ViewModel
 
     init(viewModel: ViewModel) {
@@ -29,7 +28,7 @@ struct UserShowsView<ViewModel>: View where ViewModel: UserShowsViewModelProtoco
 
     var body: some View {
 
-        NavigationStack(path: $path) {
+        NavigationStack {
             List {
                 switch groupingMode {
                 case .alphabetical:

@@ -74,6 +74,8 @@ final class UserShowsViewModel: UserShowsViewModelProtocol {
                         children: nil,
                         date: Self.dateFormatter.date(from: show.showDate)
                     )
+                }.sorted { show1, show2 in
+                    (show1.date ?? Date.distantPast) > (show2.date ?? Date.distantPast)
                 },
                 date: nil
             )
